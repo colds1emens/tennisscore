@@ -146,11 +146,6 @@ struct NewMatchView: View {
                 }
             }
             .padding(.horizontal, 36)
-            .background(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(.black.opacity(0.4))
-                    .padding(.horizontal, 30)
-            )
             .transition(.scale(scale: 0.85).combined(with: .opacity))
         }
         .transition(.opacity)

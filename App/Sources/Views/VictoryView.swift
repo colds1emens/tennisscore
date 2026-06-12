@@ -123,6 +123,10 @@ private struct ShareableCard<Content: View>: View {
     let theme: CourtTheme
     @ViewBuilder var content: Content
 
+    #if canImport(UIKit)
+    @State private var shareImage: UIImage?
+    #endif
+
     var body: some View {
         VStack(spacing: 14) {
             content
@@ -130,12 +134,15 @@ private struct ShareableCard<Content: View>: View {
 
             sharedButton
         }
+        #if canImport(UIKit)
+        .task { shareImage = renderImage() }
+        #endif
     }
 
     @ViewBuilder
     private var sharedButton: some View {
         #if canImport(UIKit)
-        if let image = renderImage() {
+        if let image = shareImage {
             ShareLink(
                 item: Image(uiImage: image),
                 preview: SharePreview("Tennis Score — результат", image: Image(uiImage: image))

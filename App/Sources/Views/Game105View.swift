@@ -23,16 +23,21 @@ struct Game105View: View {
                         .padding(.top, 8)
 
                     if isLandscape {
+                        feedCapsule
+                            .padding(.top, 4)
                         HStack(spacing: 12) {
                             SideZone(viewModel: viewModel, side: .a)
-                            feedDivider(vertical: true)
+                            Rectangle()
+                                .fill(Color.white.opacity(0.15))
+                                .frame(width: 1)
+                                .padding(.vertical, 20)
                             SideZone(viewModel: viewModel, side: .b)
                         }
                         .padding(.horizontal, 16)
                     } else {
                         VStack(spacing: 6) {
                             SideZone(viewModel: viewModel, side: .a)
-                            feedDivider(vertical: false)
+                            feedDivider
                             SideZone(viewModel: viewModel, side: .b)
                         }
                         .padding(.horizontal, 16)
@@ -100,29 +105,30 @@ struct Game105View: View {
 
     // MARK: - Индикатор наброса
 
-    private func feedDivider(vertical: Bool) -> some View {
-        let feeding = engine.feedingSide
-        return HStack(spacing: 10) {
-            if !vertical {
-                line
-            }
-            HStack(spacing: 7) {
-                TennisBall(size: 14)
-                Text(feedLabel)
-                    .font(.system(.caption, design: .rounded).weight(.semibold))
-                    .foregroundStyle(theme.textSecondary)
-                    .lineLimit(1)
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 5)
-            .background(Capsule().fill(.black.opacity(0.25)))
-            .offset(y: vertical ? 0 : feedOffset(feeding))
-            .animation(.spring(response: 0.55, dampingFraction: 0.7), value: feeding)
-            if !vertical {
-                line
-            }
+    private var feedDivider: some View {
+        HStack(spacing: 10) {
+            line
+            feedCapsule
+            line
         }
-        .frame(maxWidth: vertical ? 1 : .infinity)
+        .frame(maxWidth: .infinity)
+    }
+
+    /// Капсула «кто набрасывает»: мяч мягко смещается к нужной половине.
+    private var feedCapsule: some View {
+        let feeding = engine.feedingSide
+        return HStack(spacing: 7) {
+            TennisBall(size: 14)
+            Text(feedLabel)
+                .font(.system(.caption, design: .rounded).weight(.semibold))
+                .foregroundStyle(theme.textSecondary)
+                .lineLimit(1)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 5)
+        .background(Capsule().fill(.black.opacity(0.25)))
+        .offset(y: feedOffset(feeding))
+        .animation(.spring(response: 0.55, dampingFraction: 0.7), value: feeding)
         .accessibilityLabel(feedLabel)
     }
 

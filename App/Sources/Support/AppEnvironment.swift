@@ -102,11 +102,13 @@ final class AppRouter {
 
     func startMatch(_ viewModel: MatchViewModel) {
         matchSession = viewModel
+        game105Session = nil
         path.append(.match)
     }
 
     func start105(_ viewModel: Game105ViewModel) {
         game105Session = viewModel
+        matchSession = nil
         path.append(.game105)
     }
 }

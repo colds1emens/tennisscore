@@ -47,8 +47,9 @@ enum DemoFactory {
             (PointCategory.smashID, .a), (PointCategory.errorID, .b),
             (PointCategory.smashID, .a), (PointCategory.errorID, .b),
             (PointCategory.smashID, .b), (PointCategory.errorID, .b),
-            (PointCategory.smashID, .a), (PointCategory.errorID, .a)
-        ]
+            (PointCategory.smashID, .b), (PointCategory.smashID, .a),
+            (PointCategory.errorID, .a)
+        ] // Итог: 92:84 — у «Орлов» гейм-пойнт (92 + смэш 20 ≥ 105)
         for (category, side) in script {
             engine.award(category, to: side)
         }

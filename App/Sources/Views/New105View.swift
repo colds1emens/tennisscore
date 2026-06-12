@@ -62,7 +62,7 @@ struct New105View: View {
                                     .font(.system(.body, design: .rounded).weight(.medium))
                                     .foregroundStyle(theme.textPrimary)
                                 Spacer()
-                                ValueStepper(value: $target, range: 21...301, step: 7, theme: theme)
+                                ValueStepper(value: $target, range: 25...305, step: 5, theme: theme)
                             }
                             ThemedToggleRow(
                                 title: "До разницы в 2",
