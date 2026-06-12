@@ -7,13 +7,7 @@ BUNDLE_ID := com.efremov.tennisscore
 DEMOS := home newmatch match tiebreak 105 victory history settings
 
 # Самый новый доступный iPhone (не хардкодим имя).
-UDID = $(shell xcrun simctl list -j devices available | python3 -c "\
-import json,sys; \
-data=json.load(sys.stdin); \
-phones=[(rt,d) for rt,ds in data['devices'].items() for d in ds \
-        if 'iPhone' in d['name'] and d.get('isAvailable')]; \
-phones.sort(key=lambda p:( [int(x) for x in p[0].split('iOS-')[-1].split('-')] if 'iOS-' in p[0] else [0], p[1]['name'])); \
-print(phones[-1][1]['udid'] if phones else '')")
+UDID = $(shell python3 scripts/pick_sim.py)
 
 .PHONY: setup test typecheck build run shots icon clean
 
@@ -76,3 +70,6 @@ shots: build boot
 
 clean:
 	rm -rf $(DERIVED) TennisScore.xcodeproj screenshots
+
+print-udid:
+	@echo "UDID=$(UDID)"
