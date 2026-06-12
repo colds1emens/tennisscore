@@ -1,0 +1,11 @@
+.DS_Store
+.build/
+*.xcodeproj
+xcuserdata/
+DerivedData/
+screenshots/
+screenshots-preview/
+tools/
+*.pyc
+__pycache__/
+.swiftpm/
