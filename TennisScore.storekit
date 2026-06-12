@@ -1,0 +1,60 @@
+{
+  "identifier" : "B4FC4E5A-3A3B-4F4E-9A93-3D5C1A105001",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21105001",
+      "localizations" : [
+
+      ],
+      "name" : "Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6A105FE0-94D2-4C61-8E10-1051051051A1",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited match and practice scoring",
+              "displayName" : "Tennis Score Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.efremov.tennisscore.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Pro Monthly",
+          "subscriptionGroupID" : "21105001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
