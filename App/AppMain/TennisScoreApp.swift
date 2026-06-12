@@ -18,7 +18,7 @@ struct TennisScoreApp: App {
             do {
                 container = try ModelContainer(for: schema, configurations: [memory])
             } catch {
-                fatalError("Не удалось создать хранилище SwiftData: \(error)")
+                fatalError("Unable to create SwiftData storage: \(error)")
             }
         }
 

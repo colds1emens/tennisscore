@@ -76,8 +76,8 @@ struct Game105View: View {
 
     private var header: some View {
         ScreenHeader(
-            title: "Игра до \(engine.config.targetScore)",
-            subtitle: engine.config.winByTwo ? "До разницы в 2 очка" : nil,
+            title: "First to \(engine.config.targetScore)",
+            subtitle: engine.config.winByTwo ? "Win by 2 points" : nil,
             theme: theme,
             onBack: { router.popToRoot() },
             trailing: AnyView(
@@ -87,7 +87,7 @@ struct Game105View: View {
                     HStack(spacing: 6) {
                         Image(systemName: "arrow.uturn.backward")
                             .font(.system(.footnote, design: .rounded).weight(.bold))
-                        Text("Отменить")
+                        Text("Undo")
                             .font(.system(.footnote, design: .rounded).weight(.semibold))
                     }
                     .foregroundStyle(engine.canUndo ? theme.textPrimary : theme.textSecondary.opacity(0.4))
@@ -98,7 +98,7 @@ struct Game105View: View {
                 }
                 .buttonStyle(SpringPressStyle())
                 .disabled(!engine.canUndo)
-                .accessibilityLabel("Отменить последнее начисление")
+                .accessibilityLabel("Undo last award")
             )
         )
     }
@@ -146,12 +146,12 @@ struct Game105View: View {
 
     private var feedLabel: String {
         guard let feeding = engine.feedingSide else {
-            return "Набрасывает любой"
+            return "Anyone feeds first"
         }
         let name = viewModel.name(feeding)
         switch engine.config.feedRule {
-        case .winnerFeeds: return "Набрасывает: \(name)"
-        case .coachFeedsLoser: return "Тренер — для: \(name)"
+        case .winnerFeeds: return "Feeding: \(name)"
+        case .coachFeedsLoser: return "Coach feeds: \(name)"
         }
     }
 
@@ -169,7 +169,7 @@ struct Game105View: View {
         }
         .frame(maxWidth: .infinity, minHeight: 58, alignment: .bottomLeading)
         .animation(.spring(response: 0.35, dampingFraction: 0.8), value: viewModel.recentLines.map(\.id))
-        .accessibilityLabel("Последние события")
+        .accessibilityLabel("Recent events")
     }
 
     // MARK: - Undo-свайп и сохранение
@@ -233,7 +233,7 @@ private struct SideZone: View {
                         .offset(x: 44)
                 }
             }
-            .accessibilityLabel("Счёт \(viewModel.name(side)): \(engine.score(of: side))")
+            .accessibilityLabel("\(viewModel.name(side)) score: \(engine.score(of: side))")
     }
 
     private var buttonsGrid: some View {
@@ -293,7 +293,7 @@ private struct AwardButton: View {
             .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         }
         .buttonStyle(SpringPressStyle())
-        .accessibilityLabel("\(sideName): \(CategoryInfo.longTitle(category.id)), плюс \(category.value)")
+        .accessibilityLabel("\(sideName): \(CategoryInfo.longTitle(category.id)), plus \(category.value) points")
     }
 }
 

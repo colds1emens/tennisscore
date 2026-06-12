@@ -19,7 +19,7 @@ enum DemoFactory {
         // Сет 3 — 5:4, в текущем гейме 40:30
         playGames(&engine, [.a, .b, .a, .b, .a, .b, .a, .b, .a])
         playPoints(&engine, [.a, .a, .b, .b, .a])
-        return MatchViewModel(playerA: "Анна", playerB: "Мария", theme: settings.theme, engine: engine)
+        return MatchViewModel(playerA: "Anna", playerB: "Maria", theme: settings.theme, engine: engine)
     }
 
     /// Тай-брейк первого сета, 5:6 — сет-пойнт у принимающего.
@@ -31,7 +31,7 @@ enum DemoFactory {
         }
         playGames(&engine, [.a, .b]) // 6:6 → тай-брейк
         playPoints(&engine, [.b, .a, .b, .a, .b, .a, .b, .a, .b, .a, .b]) // 5:6
-        return MatchViewModel(playerA: "Анна", playerB: "Мария", theme: settings.theme, engine: engine)
+        return MatchViewModel(playerA: "Anna", playerB: "Maria", theme: settings.theme, engine: engine)
     }
 
     // MARK: - Игра «105»
@@ -53,7 +53,7 @@ enum DemoFactory {
         for (category, side) in script {
             engine.award(category, to: side)
         }
-        return Game105ViewModel(sideA: "Орлы", sideB: "Соколы", theme: settings.theme, engine: engine)
+        return Game105ViewModel(sideA: "Eagles", sideB: "Hawks", theme: settings.theme, engine: engine)
     }
 
     /// Завершённая игра 105:76 — для экрана победы.
@@ -73,7 +73,7 @@ enum DemoFactory {
         for (category, side) in script {
             engine.award(category, to: side)
         }
-        let viewModel = Game105ViewModel(sideA: "Орлы", sideB: "Соколы", theme: settings.theme, engine: engine)
+        let viewModel = Game105ViewModel(sideA: "Eagles", sideB: "Hawks", theme: settings.theme, engine: engine)
         viewModel.savedToHistory = true
         return viewModel
     }
@@ -92,7 +92,7 @@ enum DemoFactory {
         for _ in 0..<6 { playGames(&tiebreakMatch, [.a, .b]) }
         playPoints(&tiebreakMatch, [.a, .b, .a, .b, .a, .b, .a, .b, .a, .b]) // ТБ 5:5
         playPoints(&tiebreakMatch, [.a, .a]) // 7:5
-        if let detail = makeMatchDetail(tiebreakMatch, playerA: "Анна", playerB: "Мария") {
+        if let detail = makeMatchDetail(tiebreakMatch, playerA: "Anna", playerB: "Maria") {
             context.insert(GameRecord.record(match: detail, theme: .wimbledon, date: now.addingTimeInterval(-3600 * 5)))
         }
 
@@ -104,7 +104,7 @@ enum DemoFactory {
         playGames(&superMatch, [.a, .b, .a, .a, .b, .a, .b, .a, .a])
         playGames(&superMatch, [.b, .a, .b, .a, .b, .a, .b, .a, .b, .b])
         playPoints(&superMatch, [.a, .b, .a, .b, .a, .b, .a, .b, .a, .b, .a, .b, .a, .b, .a, .a, .a])
-        if let detail = makeMatchDetail(superMatch, playerA: "Пётр", playerB: "Иван") {
+        if let detail = makeMatchDetail(superMatch, playerA: "Peter", playerB: "Ivan") {
             context.insert(GameRecord.record(match: detail, theme: .usOpen, date: now.addingTimeInterval(-86_400)))
         }
 
@@ -112,7 +112,7 @@ enum DemoFactory {
         var quickMatch = MatchEngine(config: MatchConfig(format: .bestOfThree, noAd: true), initialServer: .a)
         playGames(&quickMatch, [.a, .a, .b, .a, .b, .a, .a, .a])
         playGames(&quickMatch, [.a, .b, .a, .a, .b, .a, .a, .a])
-        if let detail = makeMatchDetail(quickMatch, playerA: "Сергей", playerB: "Олег") {
+        if let detail = makeMatchDetail(quickMatch, playerA: "Sergey", playerB: "Oleg") {
             context.insert(GameRecord.record(match: detail, theme: .rolandGarros, date: now.addingTimeInterval(-86_400 * 2)))
         }
 
@@ -124,7 +124,7 @@ enum DemoFactory {
         game.award(PointCategory.winnerID, to: .b)                     // 95
         game.award(PointCategory.errorID, to: .b)                      // 96
         for _ in 0..<5 { game.award(PointCategory.errorID, to: .a) }   // 105
-        if let detail = makeGame105Detail(game, sideA: "Орлы", sideB: "Соколы") {
+        if let detail = makeGame105Detail(game, sideA: "Eagles", sideB: "Hawks") {
             context.insert(GameRecord.record(game105: detail, theme: .melbourne, date: now.addingTimeInterval(-3600 * 26)))
         }
 
@@ -137,7 +137,7 @@ enum DemoFactory {
         for _ in 0..<5 { single.award(PointCategory.volleyID, to: .a) } // 50
         for _ in 0..<2 { single.award(PointCategory.smashID, to: .a) }  // 90
         for _ in 0..<3 { single.award(PointCategory.winnerID, to: .a) } // 105
-        if let detail = makeGame105Detail(single, sideA: "Дима", sideB: "Костя") {
+        if let detail = makeGame105Detail(single, sideA: "Dima", sideB: "Kostya") {
             context.insert(GameRecord.record(game105: detail, theme: .wimbledon, date: now.addingTimeInterval(-86_400 * 3)))
         }
     }
@@ -147,7 +147,7 @@ enum DemoFactory {
     static func seedPresets(into context: ModelContext) {
         context.insert(
             RulePreset(
-                name: "Мой клуб",
+                name: "My Club",
                 categories: [
                     PointCategory(id: PointCategory.errorID, value: 2),
                     PointCategory(id: PointCategory.winnerID, value: 6),

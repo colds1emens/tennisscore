@@ -9,8 +9,8 @@ enum GameMode: String, Codable {
 
     var title: String {
         switch self {
-        case .match: return "Матч"
-        case .game105: return "Игра «105»"
+        case .match: return "Match"
+        case .game105: return "Game “105”"
         }
     }
 }
@@ -158,22 +158,22 @@ final class RulePreset {
 enum CategoryInfo {
     static func title(_ id: String) -> String {
         switch id {
-        case PointCategory.errorID: return "Ошибка"
-        case PointCategory.winnerID: return "Виннер"
-        case PointCategory.volleyID: return "С лёта"
-        case PointCategory.lobID: return "Свеча"
-        case PointCategory.smashID: return "Смэш"
+        case PointCategory.errorID: return "Error"
+        case PointCategory.winnerID: return "Winner"
+        case PointCategory.volleyID: return "Volley"
+        case PointCategory.lobID: return "Lob"
+        case PointCategory.smashID: return "Smash"
         default: return id
         }
     }
 
     static func longTitle(_ id: String) -> String {
         switch id {
-        case PointCategory.errorID: return "Ошибка соперника"
-        case PointCategory.winnerID: return "Чистый виннер"
-        case PointCategory.volleyID: return "Виннер с лёта"
-        case PointCategory.lobID: return "Виннер свечой"
-        case PointCategory.smashID: return "Смэш с лёта"
+        case PointCategory.errorID: return "Opponent error"
+        case PointCategory.winnerID: return "Clean winner"
+        case PointCategory.volleyID: return "Volley winner"
+        case PointCategory.lobID: return "Lob winner"
+        case PointCategory.smashID: return "Volley smash"
         default: return id
         }
     }

@@ -11,19 +11,19 @@ enum CourtTheme: String, CaseIterable, Identifiable, Codable {
 
     var title: String {
         switch self {
-        case .wimbledon: return "Уимблдон"
-        case .rolandGarros: return "Ролан Гаррос"
+        case .wimbledon: return "Wimbledon"
+        case .rolandGarros: return "Roland Garros"
         case .usOpen: return "US Open"
-        case .melbourne: return "Мельбурн"
+        case .melbourne: return "Melbourne"
         }
     }
 
     var subtitle: String {
         switch self {
-        case .wimbledon: return "Трава"
-        case .rolandGarros: return "Грунт"
-        case .usOpen: return "Хард"
-        case .melbourne: return "Хард"
+        case .wimbledon: return "Grass"
+        case .rolandGarros: return "Clay"
+        case .usOpen: return "Hard"
+        case .melbourne: return "Hard"
         }
     }
 

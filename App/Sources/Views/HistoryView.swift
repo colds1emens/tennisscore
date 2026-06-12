@@ -18,7 +18,7 @@ struct HistoryView: View {
             CourtBackground(theme: theme)
 
             VStack(spacing: 0) {
-                ScreenHeader(title: "История", subtitle: subtitle, theme: theme) {
+                ScreenHeader(title: "History", subtitle: subtitle, theme: theme) {
                     router.path.removeLast()
                 }
                 .padding(.horizontal, 20)
@@ -37,7 +37,7 @@ struct HistoryView: View {
                                     Button(role: .destructive) {
                                         modelContext.delete(record)
                                     } label: {
-                                        Label("Удалить", systemImage: "trash")
+                                        Label("Delete", systemImage: "trash")
                                     }
                                 }
                             }
@@ -57,7 +57,7 @@ struct HistoryView: View {
     }
 
     private var subtitle: String {
-        records.isEmpty ? "Пока пусто" : "Игр: \(records.count)"
+        records.isEmpty ? "Nothing here yet" : "Games: \(records.count)"
     }
 
     private var emptyState: some View {
@@ -65,10 +65,10 @@ struct HistoryView: View {
             Spacer()
             TennisBall(size: 56)
                 .opacity(0.8)
-            Text("Здесь появятся ваши игры")
+            Text("Your games will appear here")
                 .font(.system(.title3, design: .rounded).weight(.semibold))
                 .foregroundStyle(theme.textPrimary)
-            Text("Сыграйте матч или партию «105» —\nрезультат сохранится автоматически")
+            Text("Play a match or a “105” game —\nresults are saved automatically")
                 .font(.system(.subheadline, design: .rounded))
                 .foregroundStyle(theme.textSecondary)
                 .multilineTextAlignment(.center)
@@ -133,7 +133,7 @@ private struct RecordCard: View {
             )
         }
         .buttonStyle(SpringPressStyle())
-        .accessibilityLabel("\(record.mode.title): \(record.title), счёт \(record.resultSummary)")
+        .accessibilityLabel("\(record.mode.title): \(record.title), score \(record.resultSummary)")
     }
 
     private var modeIcon: some View {
@@ -193,7 +193,7 @@ private struct RecordDetailSheet: View {
                         Game105ResultCard(detail: gameDetail, theme: theme)
                     }
 
-                    Button("Закрыть") { dismiss() }
+                    Button("Close") { dismiss() }
                         .font(.system(.body, design: .rounded).weight(.semibold))
                         .foregroundStyle(theme.textPrimary)
                         .padding(.bottom, 20)

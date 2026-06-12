@@ -7,7 +7,7 @@ enum MomentBadge: String {
     case setPoint = "SET POINT"
     case matchPoint = "MATCH POINT"
     case gamePoint = "GAME POINT"
-    case decidingPoint = "РЕШАЮЩЕЕ ОЧКО"
+    case decidingPoint = "DECIDING POINT"
 
     var color: Color {
         switch self {
@@ -21,11 +21,11 @@ enum MomentBadge: String {
 
     var accessibilityText: String {
         switch self {
-        case .breakPoint: return "Брейк-пойнт"
-        case .setPoint: return "Сет-пойнт"
-        case .matchPoint: return "Матч-пойнт"
-        case .gamePoint: return "Гейм-пойнт"
-        case .decidingPoint: return "Решающее очко"
+        case .breakPoint: return "Break point"
+        case .setPoint: return "Set point"
+        case .matchPoint: return "Match point"
+        case .gamePoint: return "Game point"
+        case .decidingPoint: return "Deciding point"
         }
     }
 
@@ -71,7 +71,7 @@ struct ChangeEndsBanner: View {
         HStack(spacing: 8) {
             Image(systemName: "arrow.left.arrow.right")
                 .font(.system(.footnote, design: .rounded).weight(.bold))
-            Text("Смена сторон")
+            Text("Change ends")
                 .font(.system(.footnote, design: .rounded).weight(.semibold))
         }
         .foregroundStyle(theme.textPrimary)
@@ -80,7 +80,7 @@ struct ChangeEndsBanner: View {
         .background(Capsule().fill(.black.opacity(0.35)))
         .overlay(Capsule().strokeBorder(Color.white.opacity(0.2), lineWidth: 1))
         .transition(.move(edge: .top).combined(with: .opacity))
-        .accessibilityLabel("Смена сторон")
+        .accessibilityLabel("Change ends")
     }
 }
 

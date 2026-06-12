@@ -26,7 +26,7 @@ struct RootView: View {
         }
         .environment(router)
         .environment(settings)
-        .environment(\.locale, Locale(identifier: "ru_RU"))
+        .environment(\.locale, Locale(identifier: "en_US"))
         .tint(settings.theme.accent)
         .preferredColorScheme(nil)
         .onAppear { applyDemoIfNeeded() }

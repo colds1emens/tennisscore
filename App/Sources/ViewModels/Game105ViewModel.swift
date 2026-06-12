@@ -62,15 +62,15 @@ final class Game105ViewModel {
     func undo() {
         guard let event = engine.undo() else { return }
         Haptics.warning()
-        let sideName = event.side == .a ? "А" : "Б"
-        showToast("Отменено: \(CategoryInfo.title(event.categoryID)) +\(event.value), сторона \(sideName)")
+        let sideName = event.side == .a ? "A" : "B"
+        showToast("Undone: \(CategoryInfo.title(event.categoryID)) +\(event.value), side \(sideName)")
     }
 
     func redo() {
         guard let event = engine.redo() else { return }
         Haptics.impact(value: event.value, maxValue: engine.config.maxEnabledValue)
-        let sideName = event.side == .a ? "А" : "Б"
-        showToast("Возвращено: \(CategoryInfo.title(event.categoryID)) +\(event.value), сторона \(sideName)")
+        let sideName = event.side == .a ? "A" : "B"
+        showToast("Redone: \(CategoryInfo.title(event.categoryID)) +\(event.value), side \(sideName)")
     }
 
     private func showToast(_ text: String) {

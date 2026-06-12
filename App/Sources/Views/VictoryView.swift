@@ -64,7 +64,7 @@ struct VictoryView: View {
             }
         case nil:
             GlassCard(theme: theme) {
-                Text("Игра не найдена")
+                Text("Game not found")
                     .font(.system(.body, design: .rounded))
                     .foregroundStyle(theme.textSecondary)
             }
@@ -73,13 +73,13 @@ struct VictoryView: View {
 
     private var actions: some View {
         VStack(spacing: 10) {
-            PrimaryCapsuleButton(title: "Сыграть ещё раз", systemImage: "arrow.counterclockwise", theme: theme) {
+            PrimaryCapsuleButton(title: "Play again", systemImage: "arrow.counterclockwise", theme: theme) {
                 playAgain()
             }
             Button {
                 router.popToRoot()
             } label: {
-                Text("На главную")
+                Text("Home")
                     .font(.system(.body, design: .rounded).weight(.semibold))
                     .foregroundStyle(theme.textPrimary)
                     .frame(maxWidth: .infinity)
@@ -145,12 +145,12 @@ private struct ShareableCard<Content: View>: View {
         if let image = shareImage {
             ShareLink(
                 item: Image(uiImage: image),
-                preview: SharePreview("Tennis Score — результат", image: Image(uiImage: image))
+                preview: SharePreview("Tennis Score — result", image: Image(uiImage: image))
             ) {
                 HStack(spacing: 8) {
                     Image(systemName: "square.and.arrow.up")
                         .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                    Text("Поделиться")
+                    Text("Share")
                         .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 }
                 .foregroundStyle(theme.textPrimary)
@@ -159,7 +159,7 @@ private struct ShareableCard<Content: View>: View {
                 .background(Capsule().fill(theme.cardFill))
                 .overlay(Capsule().strokeBorder(theme.cardStroke, lineWidth: 1))
             }
-            .accessibilityLabel("Поделиться картинкой результата")
+            .accessibilityLabel("Share the result as an image")
         }
         #endif
     }
@@ -193,7 +193,7 @@ struct MatchResultCard: View {
         GlassCard(theme: theme, padding: 22) {
             VStack(spacing: 16) {
                 VStack(spacing: 4) {
-                    Text("ПОБЕДА")
+                    Text("WINNER")
                         .font(.system(.caption, design: .rounded).weight(.heavy))
                         .tracking(3)
                         .foregroundStyle(theme.textSecondary)
@@ -277,7 +277,7 @@ struct Game105ResultCard: View {
         GlassCard(theme: theme, padding: 22) {
             VStack(spacing: 16) {
                 VStack(spacing: 4) {
-                    Text("ПОБЕДА")
+                    Text("WINNER")
                         .font(.system(.caption, design: .rounded).weight(.heavy))
                         .tracking(3)
                         .foregroundStyle(theme.textSecondary)
@@ -328,7 +328,7 @@ struct Game105ResultCard: View {
                 }
             }
             if lines.isEmpty {
-                Text("Без очков")
+                Text("No points")
                     .font(.system(.caption2, design: .rounded))
                     .foregroundStyle(theme.textSecondary)
             }

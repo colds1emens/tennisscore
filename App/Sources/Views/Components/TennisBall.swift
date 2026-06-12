@@ -110,6 +110,6 @@ struct ServeIndicator: View {
             .offset(y: bounce ? -1.5 : 1.5)
             .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: bounce)
             .onAppear { bounce = true }
-            .accessibilityLabel("Подаёт")
+            .accessibilityLabel("Serving")
     }
 }

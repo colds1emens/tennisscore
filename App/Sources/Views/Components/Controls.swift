@@ -218,7 +218,7 @@ struct ScreenHeader: View {
                         .overlay(Circle().strokeBorder(theme.cardStroke, lineWidth: 1))
                 }
                 .buttonStyle(SpringPressStyle())
-                .accessibilityLabel("Назад")
+                .accessibilityLabel("Back")
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)

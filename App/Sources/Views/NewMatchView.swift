@@ -15,8 +15,8 @@ struct NewMatchView: View {
     @State private var server: Player?
     @State private var showCoinFlip = false
 
-    private var nameA: String { playerA.isEmpty ? "Игрок А" : playerA }
-    private var nameB: String { playerB.isEmpty ? "Игрок Б" : playerB }
+    private var nameA: String { playerA.isEmpty ? "Player A" : playerA }
+    private var nameB: String { playerB.isEmpty ? "Player B" : playerB }
 
     var body: some View {
         ZStack {
@@ -24,38 +24,38 @@ struct NewMatchView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 18) {
-                    ScreenHeader(title: "Новый матч", subtitle: nil, theme: theme) {
+                    ScreenHeader(title: "New match", subtitle: nil, theme: theme) {
                         router.path.removeLast()
                     }
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 12) {
-                            sectionLabel("Игроки")
-                            NameField(placeholder: "Игрок А", text: $playerA, theme: theme)
-                                .accessibilityLabel("Имя первого игрока")
-                            NameField(placeholder: "Игрок Б", text: $playerB, theme: theme)
-                                .accessibilityLabel("Имя второго игрока")
+                            sectionLabel("Players")
+                            NameField(placeholder: "Player A", text: $playerA, theme: theme)
+                                .accessibilityLabel("First player name")
+                            NameField(placeholder: "Player B", text: $playerB, theme: theme)
+                                .accessibilityLabel("Second player name")
                         }
                     }
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 14) {
-                            sectionLabel("Формат")
+                            sectionLabel("Format")
                             CapsuleSegmentedPicker(
                                 options: MatchConfig.Format.allCases,
-                                title: { $0 == .bestOfThree ? "До 2 сетов" : "До 3 сетов" },
+                                title: { $0 == .bestOfThree ? "Best of 3" : "Best of 5" },
                                 selection: $format,
                                 theme: theme
                             )
                             ThemedToggleRow(
-                                title: "Решающее очко (no-ad)",
-                                subtitle: "При «ровно» разыгрывается одно очко",
+                                title: "Deciding point (no-ad)",
+                                subtitle: "A single point is played at deuce",
                                 isOn: $noAd,
                                 theme: theme
                             )
                             ThemedToggleRow(
-                                title: "Супер тай-брейк",
-                                subtitle: "До 10 очков вместо решающего сета",
+                                title: "Super tiebreak",
+                                subtitle: "First to 10 points instead of a final set",
                                 isOn: $superTiebreak,
                                 theme: theme
                             )
@@ -64,22 +64,22 @@ struct NewMatchView: View {
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 12) {
-                            sectionLabel("Тема корта")
+                            sectionLabel("Court theme")
                             ThemePicker(selection: $theme)
                         }
                     }
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 12) {
-                            sectionLabel("Подача")
+                            sectionLabel("Serve")
                             if let server {
                                 HStack(spacing: 10) {
                                     TennisBall(size: 20)
-                                    Text("Подаёт: \(server == .a ? nameA : nameB)")
+                                    Text("Serving: \(server == .a ? nameA : nameB)")
                                         .font(.system(.body, design: .rounded).weight(.semibold))
                                         .foregroundStyle(theme.textPrimary)
                                     Spacer()
-                                    Button("Изменить") { showCoinFlip = true }
+                                    Button("Change") { showCoinFlip = true }
                                         .font(.system(.subheadline, design: .rounded).weight(.semibold))
                                         .foregroundStyle(theme.accent)
                                         .brightness(0.2)
@@ -91,7 +91,7 @@ struct NewMatchView: View {
                                     HStack(spacing: 10) {
                                         Image(systemName: "circle.grid.cross")
                                             .font(.system(.body, design: .rounded).weight(.semibold))
-                                        Text("Жеребьёвка монеткой")
+                                        Text("Coin toss")
                                             .font(.system(.body, design: .rounded).weight(.semibold))
                                     }
                                     .foregroundStyle(theme.textPrimary)
@@ -106,13 +106,13 @@ struct NewMatchView: View {
                     }
 
                     PrimaryCapsuleButton(
-                        title: "Начать матч",
+                        title: "Start match",
                         systemImage: "play.fill",
                         theme: theme
                     ) {
                         startMatch()
                     }
-                    .accessibilityHint(server == nil ? "Подающий будет выбран жеребьёвкой" : "")
+                    .accessibilityHint(server == nil ? "The server will be chosen by coin toss" : "")
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
@@ -136,7 +136,7 @@ struct NewMatchView: View {
                     CoinFlipView(nameA: nameA, nameB: nameB, theme: theme) { result in
                         server = result
                     }
-                    Button("Готово") {
+                    Button("Done") {
                         withAnimation(.spring(duration: 0.35)) { showCoinFlip = false }
                     }
                     .font(.system(.body, design: .rounded).weight(.semibold))
@@ -227,7 +227,7 @@ struct ThemePicker: View {
                     }
                 }
                 .buttonStyle(SpringPressStyle())
-                .accessibilityLabel("Тема \(court.title)")
+                .accessibilityLabel("\(court.title) theme")
                 .accessibilityAddTraits(selection == court ? .isSelected : [])
             }
         }

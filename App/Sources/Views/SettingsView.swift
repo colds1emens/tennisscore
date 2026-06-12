@@ -22,13 +22,13 @@ struct SettingsView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 18) {
-                    ScreenHeader(title: "Настройки", subtitle: nil, theme: theme) {
+                    ScreenHeader(title: "Settings", subtitle: nil, theme: theme) {
                         router.path.removeLast()
                     }
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 14) {
-                            sectionLabel("Очки в игре «105»")
+                            sectionLabel("Points in “105”")
                             ForEach($settings.categories, id: \.id) { $category in
                                 categoryRow($category)
                             }
@@ -37,7 +37,7 @@ struct SettingsView: View {
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 12) {
-                            sectionLabel("Пресеты")
+                            sectionLabel("Presets")
                             presetRows
                             Button {
                                 presetName = ""
@@ -45,7 +45,7 @@ struct SettingsView: View {
                             } label: {
                                 HStack(spacing: 8) {
                                     Image(systemName: "plus.circle.fill")
-                                    Text("Сохранить текущие значения")
+                                    Text("Save current values")
                                         .font(.system(.subheadline, design: .rounded).weight(.semibold))
                                 }
                                 .foregroundStyle(theme.accent)
@@ -58,21 +58,21 @@ struct SettingsView: View {
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 12) {
-                            sectionLabel("Тема по умолчанию")
+                            sectionLabel("Default theme")
                             ThemePicker(selection: $settings.theme)
                         }
                     }
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 8) {
-                            sectionLabel("О приложении")
+                            sectionLabel("About")
                             HStack {
                                 TennisBall(size: 28)
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text("Tennis Score")
                                         .font(.system(.body, design: .rounded).weight(.bold))
                                         .foregroundStyle(theme.textPrimary)
-                                    Text("Счёт для матчей и тренировок · офлайн")
+                                    Text("Match and practice scoring · offline")
                                         .font(.system(.caption, design: .rounded))
                                         .foregroundStyle(theme.textSecondary)
                                 }
@@ -88,12 +88,12 @@ struct SettingsView: View {
                 .padding(.bottom, 24)
             }
         }
-        .alert("Название пресета", isPresented: $showSavePreset) {
-            TextField("Мой клуб", text: $presetName)
-            Button("Сохранить") { savePreset() }
-            Button("Отмена", role: .cancel) {}
+        .alert("Preset name", isPresented: $showSavePreset) {
+            TextField("My club", text: $presetName)
+            Button("Save") { savePreset() }
+            Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Текущие значения очков сохранятся как пресет")
+            Text("Current point values will be saved as a preset")
         }
     }
 
@@ -114,7 +114,7 @@ struct SettingsView: View {
                         category.wrappedValue.isEnabled ? theme.textPrimary : theme.textSecondary.opacity(0.5)
                     )
                 if category.wrappedValue.id == PointCategory.lobID {
-                    Toggle("Категория включена", isOn: category.isEnabled)
+                    Toggle("Category enabled", isOn: category.isEnabled)
                         .labelsHidden()
                         .toggleStyle(InlineCheckToggle(theme: theme))
                 }
@@ -132,7 +132,7 @@ struct SettingsView: View {
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(
-            "\(CategoryInfo.longTitle(category.wrappedValue.id)): \(category.wrappedValue.value) очков"
+            "\(CategoryInfo.longTitle(category.wrappedValue.id)): \(category.wrappedValue.value) points"
         )
     }
 
@@ -141,7 +141,7 @@ struct SettingsView: View {
     private var presetRows: some View {
         VStack(spacing: 8) {
             builtInPresetRow(
-                name: "Классика 1/5/10/20",
+                name: "Classic 1/5/10/20",
                 categories: PointCategory.standardSet()
             )
             ForEach(presets) { preset in
@@ -193,7 +193,7 @@ struct SettingsView: View {
                     .frame(width: 32, height: 32)
             }
             .buttonStyle(SpringPressStyle())
-            .accessibilityLabel("Удалить пресет \(preset.name)")
+            .accessibilityLabel("Delete preset \(preset.name)")
         }
     }
 
@@ -202,7 +202,7 @@ struct SettingsView: View {
             action()
             Haptics.selection()
         } label: {
-            Text("Применить")
+            Text("Apply")
                 .font(.system(.footnote, design: .rounded).weight(.semibold))
                 .foregroundStyle(theme.accent)
                 .brightness(0.2)
@@ -244,7 +244,7 @@ private struct InlineCheckToggle: ToggleStyle {
             HStack(spacing: 4) {
                 Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
                     .font(.system(size: 11))
-                Text(configuration.isOn ? "включена" : "выключена")
+                Text(configuration.isOn ? "enabled" : "disabled")
                     .font(.system(.caption2, design: .rounded))
             }
             .foregroundStyle(theme.textSecondary)

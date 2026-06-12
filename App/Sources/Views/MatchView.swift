@@ -91,7 +91,7 @@ struct MatchView: View {
                     HStack(spacing: 6) {
                         Image(systemName: "arrow.uturn.backward")
                             .font(.system(.footnote, design: .rounded).weight(.bold))
-                        Text("Отменить")
+                        Text("Undo")
                             .font(.system(.footnote, design: .rounded).weight(.semibold))
                     }
                     .foregroundStyle(engine.canUndo ? theme.textPrimary : theme.textSecondary.opacity(0.4))
@@ -102,22 +102,22 @@ struct MatchView: View {
                 }
                 .buttonStyle(SpringPressStyle())
                 .disabled(!engine.canUndo)
-                .accessibilityLabel("Отменить последнее очко")
+                .accessibilityLabel("Undo last point")
             )
         )
     }
 
     private var setTitle: String {
-        if engine.isFinished { return "Матч завершён" }
-        if engine.isSuperTiebreak { return "Супер тай-брейк" }
+        if engine.isFinished { return "Match finished" }
+        if engine.isSuperTiebreak { return "Super tiebreak" }
         let number = engine.completedSets.count + 1
-        return engine.isTiebreak ? "Сет \(number) · Тай-брейк" : "Сет \(number)"
+        return engine.isTiebreak ? "Set \(number) · Tiebreak" : "Set \(number)"
     }
 
     private var formatLine: String {
-        var parts = [engine.config.format == .bestOfThree ? "До 2 сетов" : "До 3 сетов"]
+        var parts = [engine.config.format == .bestOfThree ? "Best of 3" : "Best of 5"]
         if engine.config.noAd { parts.append("no-ad") }
-        if engine.config.superTiebreakInsteadOfFinalSet { parts.append("супер ТБ") }
+        if engine.config.superTiebreakInsteadOfFinalSet { parts.append("super TB") }
         return parts.joined(separator: " · ")
     }
 
@@ -126,11 +126,11 @@ struct MatchView: View {
     private var statusLine: some View {
         Group {
             if engine.isDeuce {
-                Text(engine.config.noAd ? "Ровно · решающее очко" : "Ровно")
+                Text(engine.config.noAd ? "Deuce · deciding point" : "Deuce")
             } else if let advantage = engine.advantage {
-                Text("Больше у: \(viewModel.name(advantage))")
+                Text("Advantage \(viewModel.name(advantage))")
             } else if engine.isTiebreak {
-                Text(engine.isSuperTiebreak ? "До \(engine.config.superTiebreakTarget) очков" : "До \(engine.config.tiebreakTarget) очков")
+                Text("First to \(engine.isSuperTiebreak ? engine.config.superTiebreakTarget : engine.config.tiebreakTarget) points")
             } else {
                 Text(" ")
             }
@@ -181,8 +181,8 @@ struct MatchView: View {
         }
         .buttonStyle(.plain)
         .disabled(engine.isFinished)
-        .accessibilityLabel("Очко: \(viewModel.name(player))")
-        .accessibilityHint("Счёт в гейме \(engine.gameScoreText(for: player))")
+        .accessibilityLabel("Point for \(viewModel.name(player))")
+        .accessibilityHint("Game score \(engine.gameScoreText(for: player))")
     }
 
     private func zoneDivider(vertical: Bool) -> some View {
@@ -198,7 +198,7 @@ struct MatchView: View {
     }
 
     private var hint: some View {
-        Text("Тап по половине — очко · смахните вниз, чтобы отменить")
+        Text("Tap a half to score · swipe down to undo")
             .font(.system(.caption2, design: .rounded))
             .foregroundStyle(theme.textSecondary.opacity(0.7))
     }
@@ -295,6 +295,6 @@ struct SetsGrid: View {
 
     private var setsAccessibility: String {
         let sets = engine.completedSets.map { "\($0.gamesA):\($0.gamesB)" }.joined(separator: ", ")
-        return "Сеты: \(sets). Текущий: \(engine.gamesA):\(engine.gamesB)"
+        return "Sets: \(sets). Current: \(engine.gamesA):\(engine.gamesB)"
     }
 }

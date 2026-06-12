@@ -35,7 +35,7 @@ struct CoinFlipView: View {
 
             if let result {
                 VStack(spacing: 6) {
-                    Text("Подаёт")
+                    Text("Serving")
                         .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(theme.textSecondary)
                     Text(result == .a ? nameA : nameB)
@@ -44,13 +44,13 @@ struct CoinFlipView: View {
                 }
                 .transition(.scale(scale: 0.8).combined(with: .opacity))
             } else {
-                Text(isFlipping ? "Монетка в воздухе…" : "Подбросьте монетку")
+                Text(isFlipping ? "The coin is in the air…" : "Toss the coin")
                     .font(.system(.subheadline, design: .rounded))
                     .foregroundStyle(theme.textSecondary)
             }
 
             Button(action: flip) {
-                Text(result == nil ? "Подбросить" : "Ещё раз")
+                Text(result == nil ? "Toss" : "Toss again")
                     .font(.system(.body, design: .rounded).weight(.semibold))
                     .foregroundStyle(theme.textPrimary)
                     .padding(.horizontal, 26)
@@ -60,7 +60,7 @@ struct CoinFlipView: View {
             }
             .buttonStyle(SpringPressStyle())
             .disabled(isFlipping)
-            .accessibilityLabel("Подбросить монетку для жеребьёвки подачи")
+            .accessibilityLabel("Toss the coin to decide who serves first")
         }
         .onAppear {
             if result == nil && !isFlipping {

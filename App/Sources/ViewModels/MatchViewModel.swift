@@ -63,7 +63,7 @@ final class MatchViewModel {
             flashChangeEnds()
         }
         if outcome.tiebreakStarted {
-            showToast(engine.isSuperTiebreak ? "Супер тай-брейк" : "Тай-брейк")
+            showToast(engine.isSuperTiebreak ? "Super tiebreak" : "Tiebreak")
         }
     }
 
@@ -71,7 +71,7 @@ final class MatchViewModel {
         guard engine.canUndo else { return }
         engine.undo()
         Haptics.warning()
-        showToast("Отменено")
+        showToast("Undone")
     }
 
     // MARK: - Подсказки

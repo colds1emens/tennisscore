@@ -20,24 +20,24 @@ struct HomeView: View {
 
                 VStack(spacing: 18) {
                     ModeCard(
-                        title: "Матч",
-                        subtitle: "Классический счёт: геймы,\nсеты и тай-брейки",
+                        title: "Match",
+                        subtitle: "Classic scoring: games,\nsets and tiebreaks",
                         symbol: "figure.tennis",
                         theme: theme
                     ) {
                         router.open(.newMatch)
                     }
-                    .accessibilityHint("Начать классический матч")
+                    .accessibilityHint("Start a classic match")
 
                     ModeCard(
                         title: "105",
-                        subtitle: "Тренировочная игра\nдо целевого счёта",
+                        subtitle: "Practice game\nplayed to a target score",
                         symbol: nil,
                         theme: theme
                     ) {
                         router.open(.new105)
                     }
-                    .accessibilityHint("Начать тренировочную игру сто пять")
+                    .accessibilityHint("Start a one-oh-five practice game")
                 }
                 .padding(.horizontal, 24)
 
@@ -72,10 +72,10 @@ struct HomeView: View {
 
     private var footer: some View {
         HStack(spacing: 12) {
-            FooterButton(symbol: "clock.arrow.circlepath", title: "История", theme: theme) {
+            FooterButton(symbol: "clock.arrow.circlepath", title: "History", theme: theme) {
                 router.open(.history)
             }
-            FooterButton(symbol: "gearshape", title: "Настройки", theme: theme) {
+            FooterButton(symbol: "gearshape", title: "Settings", theme: theme) {
                 router.open(.settings)
             }
         }
@@ -137,7 +137,7 @@ private struct ModeCard: View {
             )
         }
         .buttonStyle(SpringPressStyle())
-        .accessibilityLabel(title == "105" ? "Игра сто пять" : title)
+        .accessibilityLabel(title == "105" ? "Game one-oh-five" : title)
     }
 }
 
