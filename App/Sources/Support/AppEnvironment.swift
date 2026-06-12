@@ -54,6 +54,14 @@ final class AppSettings {
         }
     }
 
+    /// Чистые настройки для demo-режима: ничего не читают и не пишут на диск.
+    static func ephemeral() -> AppSettings {
+        let suiteName = "tennisscore.demo.ephemeral"
+        let defaults = UserDefaults(suiteName: suiteName) ?? .standard
+        defaults.removePersistentDomain(forName: suiteName)
+        return AppSettings(defaults: defaults)
+    }
+
     func game105Config() -> Game105Config {
         Game105Config(
             targetScore: targetScore,
