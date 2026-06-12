@@ -220,11 +220,11 @@ private struct SideZone: View {
 
     private var scoreView: some View {
         Text("\(engine.score(of: side))")
-            .font(.system(size: 76, weight: .heavy, design: .rounded).monospacedDigit())
+            .font(.system(size: 68, weight: .heavy, design: .rounded).monospacedDigit())
             .foregroundStyle(theme.textPrimary)
             .contentTransition(.numericText(value: Double(engine.score(of: side))))
             .animation(.snappy(duration: 0.45), value: engine.score(of: side))
-            .frame(height: 78)
+            .frame(height: 70)
             .overlay(alignment: .topTrailing) {
                 if let flash = viewModel.lastAward, flash.side == side {
                     FlyingValue(value: flash.value, theme: theme)
@@ -237,10 +237,12 @@ private struct SideZone: View {
 
     private var buttonsGrid: some View {
         let categories = engine.config.enabledCategories
-        let columns = [
-            GridItem(.flexible(), spacing: 8),
-            GridItem(.flexible(), spacing: 8)
-        ]
+        // При 5 типах — 3 колонки (2 ряда), иначе 2 колонки: всё в зоне большого пальца.
+        let columnCount = categories.count > 4 ? 3 : 2
+        let columns = Array(
+            repeating: GridItem(.flexible(), spacing: 8),
+            count: columnCount
+        )
         return LazyVGrid(columns: columns, spacing: 8) {
             ForEach(categories) { category in
                 AwardButton(category: category, theme: theme, sideName: viewModel.name(side)) {
@@ -260,22 +262,23 @@ private struct AwardButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 8) {
-                Image(systemName: CategoryInfo.symbol(category.id))
-                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                    .foregroundStyle(theme.textSecondary)
-                Text(CategoryInfo.title(category.id))
-                    .font(.system(.body, design: .rounded).weight(.semibold))
-                    .foregroundStyle(theme.textPrimary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-                Spacer(minLength: 2)
+            VStack(spacing: 2) {
+                HStack(spacing: 4) {
+                    Image(systemName: CategoryInfo.symbol(category.id))
+                        .font(.system(.caption, design: .rounded).weight(.semibold))
+                        .foregroundStyle(theme.textSecondary)
+                    Text(CategoryInfo.title(category.id))
+                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
                 Text("+\(category.value)")
                     .font(.system(.title3, design: .rounded).weight(.heavy).monospacedDigit())
                     .foregroundStyle(theme.accent)
                     .brightness(0.25)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 8)
             .frame(maxWidth: .infinity)
             .frame(minHeight: 64)
             .background(
