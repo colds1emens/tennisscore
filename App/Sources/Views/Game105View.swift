@@ -46,7 +46,7 @@ struct Game105View: View {
                     ticker
                         .padding(.horizontal, 20)
                         .padding(.top, 6)
-                        .padding(.bottom, 4)
+                        .padding(.bottom, 10)
                 }
             }
 
@@ -123,6 +123,7 @@ struct Game105View: View {
                 .font(.system(.caption, design: .rounded).weight(.semibold))
                 .foregroundStyle(theme.textSecondary)
                 .lineLimit(1)
+                .fixedSize()
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 5)

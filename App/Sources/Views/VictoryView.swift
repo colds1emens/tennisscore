@@ -300,13 +300,16 @@ struct Game105ResultCard: View {
                         .foregroundStyle(detail.winner == .b ? theme.textPrimary : theme.textSecondary)
                 }
 
-                HStack(alignment: .top, spacing: 14) {
+                HStack(alignment: .top, spacing: 28) {
                     breakdownColumn(name: detail.sideA, lines: detail.breakdownA, isWinner: detail.winner == .a)
+                    breakdownColumn(name: detail.sideB, lines: detail.breakdownB, isWinner: detail.winner == .b)
+                }
+                // Разделитель фоном: не растягивает карточку по вертикали.
+                .background(
                     Rectangle()
                         .fill(Color.white.opacity(0.15))
                         .frame(width: 1)
-                    breakdownColumn(name: detail.sideB, lines: detail.breakdownB, isWinner: detail.winner == .b)
-                }
+                )
             }
         }
     }

@@ -56,7 +56,7 @@ enum DemoFactory {
         return Game105ViewModel(sideA: "Орлы", sideB: "Соколы", theme: settings.theme, engine: engine)
     }
 
-    /// Завершённая игра 105:96 — для экрана победы.
+    /// Завершённая игра 105:76 — для экрана победы.
     @MainActor
     static func finished105Session(settings: AppSettings) -> Game105ViewModel {
         var engine = Game105Engine(config: Game105Config(categories: PointCategory.standardSet()))
