@@ -9,3 +9,10 @@ tools/
 *.pyc
 __pycache__/
 .swiftpm/
+
+# App Store Connect API secrets — НИКОГДА не коммитить
+*.p8
+AppStore/private/
+build/
+*token*
+gh_token.txt
