@@ -6,15 +6,11 @@ import TennisEngine
 struct SettingsView: View {
     @Environment(AppRouter.self) private var router
     @Environment(AppSettings.self) private var settings
-    @Environment(StoreManager.self) private var store
-    @Environment(TrialManager.self) private var trial
-    @Environment(AccountManager.self) private var accountManager
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \RulePreset.createdAt) private var presets: [RulePreset]
 
     @State private var showSavePreset = false
     @State private var presetName = ""
-    @State private var showPaywall = false
 
     private var theme: CourtTheme { settings.theme }
 
@@ -28,15 +24,6 @@ struct SettingsView: View {
                 VStack(spacing: 18) {
                     ScreenHeader(title: "Settings", subtitle: nil, theme: theme) {
                         router.path.removeLast()
-                    }
-
-                    GlassCard(theme: theme) {
-                        VStack(spacing: 12) {
-                            sectionLabel("Account & subscription")
-                            accountRow
-                            Divider().overlay(Color.white.opacity(0.15))
-                            subscriptionRow
-                        }
                     }
 
                     GlassCard(theme: theme) {
@@ -101,80 +88,12 @@ struct SettingsView: View {
                 .padding(.bottom, 24)
             }
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(allowsDismiss: true)
-        }
         .alert("Preset name", isPresented: $showSavePreset) {
             TextField("My club", text: $presetName)
             Button("Save") { savePreset() }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Current point values will be saved as a preset")
-        }
-    }
-
-    // MARK: - Аккаунт и подписка
-
-    private var accountRow: some View {
-        HStack(spacing: 12) {
-            Image(systemName: accountManager.account?.providerName == "Apple" ? "apple.logo" : "envelope.fill")
-                .font(.system(.body, design: .rounded))
-                .foregroundStyle(theme.textPrimary)
-                .frame(width: 26)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(accountManager.account?.displayName ?? "Not signed in")
-                    .font(.system(.subheadline, design: .rounded).weight(.medium))
-                    .foregroundStyle(theme.textPrimary)
-                    .lineLimit(1)
-                if let provider = accountManager.account?.providerName {
-                    Text("Signed in with \(provider)")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundStyle(theme.textSecondary)
-                }
-            }
-            Spacer()
-            if accountManager.isSignedIn {
-                Button("Sign out") {
-                    accountManager.signOut()
-                    Haptics.warning()
-                }
-                .font(.system(.footnote, design: .rounded).weight(.semibold))
-                .foregroundStyle(theme.textSecondary)
-            }
-        }
-    }
-
-    private var subscriptionRow: some View {
-        HStack(spacing: 12) {
-            Image(systemName: store.isSubscribed ? "checkmark.seal.fill" : "sparkles")
-                .font(.system(.body, design: .rounded))
-                .foregroundStyle(store.isSubscribed ? Color(red: 0.35, green: 0.85, blue: 0.5) : theme.accent)
-                .brightness(store.isSubscribed ? 0 : 0.2)
-                .frame(width: 26)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(store.isSubscribed ? "Pro · active" : (trial.isTrialActive ? "Trial · \(trial.remainingText)" : "Trial expired"))
-                    .font(.system(.subheadline, design: .rounded).weight(.medium))
-                    .foregroundStyle(theme.textPrimary)
-                Text(store.isSubscribed
-                     ? "Manage in App Store settings"
-                     : "\(store.priceText) / month after the free day")
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundStyle(theme.textSecondary)
-            }
-            Spacer()
-            if store.isSubscribed {
-                Link("Manage", destination: URL(string: "https://apps.apple.com/account/subscriptions") ?? URL(fileURLWithPath: "/"))
-                    .font(.system(.footnote, design: .rounded).weight(.semibold))
-                    .foregroundStyle(theme.accent)
-                    .brightness(0.2)
-            } else {
-                Button("Subscribe") {
-                    showPaywall = true
-                }
-                .font(.system(.footnote, design: .rounded).weight(.semibold))
-                .foregroundStyle(theme.accent)
-                .brightness(0.2)
-            }
         }
     }
 

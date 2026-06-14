@@ -6,64 +6,14 @@ import TennisEngine
 struct RootView: View {
     @State private var router = AppRouter()
     @State private var settings: AppSettings
-    @State private var store: StoreManager
-    @State private var trial: TrialManager
-    @State private var accountManager = AccountManager()
     let demo: DemoTarget?
 
     init(demo: DemoTarget?) {
         self.demo = demo
         _settings = State(initialValue: demo != nil ? AppSettings.ephemeral() : AppSettings())
-        _store = State(initialValue: StoreManager(autoload: demo == nil))
-        _trial = State(initialValue: TrialManager(ephemeral: demo != nil))
     }
 
     var body: some View {
-        Group {
-            switch gate {
-            case .auth:
-                AuthView()
-                    .transition(.opacity)
-            case .paywall:
-                PaywallView()
-                    .transition(.opacity)
-            case .app:
-                mainNavigation
-            }
-        }
-        .animation(.easeInOut(duration: 0.3), value: gate)
-        .environment(router)
-        .environment(settings)
-        .environment(store)
-        .environment(trial)
-        .environment(accountManager)
-        .environment(\.locale, Locale(identifier: "en_US"))
-        .tint(settings.theme.accent)
-        .preferredColorScheme(nil)
-        .onAppear { applyDemoIfNeeded() }
-    }
-
-    private enum Gate: Equatable {
-        case auth
-        case paywall
-        case app
-    }
-
-    private var gate: Gate {
-        // Demo-режимы открывают нужный экран напрямую, минуя гейты.
-        if let demo {
-            switch demo {
-            case .auth: return .auth
-            case .paywall: return .paywall
-            default: return .app
-            }
-        }
-        if !accountManager.isSignedIn { return .auth }
-        if !store.isSubscribed && !trial.isTrialActive { return .paywall }
-        return .app
-    }
-
-    private var mainNavigation: some View {
         NavigationStack(path: $router.path) {
             HomeView()
                 .navigationBarBackButtonHidden(true)
@@ -74,6 +24,12 @@ struct RootView: View {
                 }
                 .toolbar(.hidden, for: .navigationBar)
         }
+        .environment(router)
+        .environment(settings)
+        .environment(\.locale, Locale(identifier: "en_US"))
+        .tint(settings.theme.accent)
+        .preferredColorScheme(nil)
+        .onAppear { applyDemoIfNeeded() }
     }
 
     @ViewBuilder
@@ -107,7 +63,7 @@ struct RootView: View {
     private func applyDemoIfNeeded() {
         guard let demo else { return }
         switch demo {
-        case .home, .auth, .paywall:
+        case .home:
             break
         case .newmatch:
             router.path = [.newMatch]
@@ -141,8 +97,6 @@ enum DemoTarget: String {
     case victory
     case history
     case settings
-    case auth
-    case paywall
 
     static func fromArguments(_ arguments: [String]) -> DemoTarget? {
         guard let index = arguments.firstIndex(of: "--demo"),

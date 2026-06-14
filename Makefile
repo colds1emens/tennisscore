@@ -4,7 +4,7 @@ XCODEGEN := $(shell command -v xcodegen 2>/dev/null || echo ./tools/xcodegen/bin
 DERIVED := DerivedData
 APP := $(DERIVED)/Build/Products/Debug-iphonesimulator/TennisScore.app
 BUNDLE_ID := com.efremov.tennisscore
-DEMOS := home newmatch match tiebreak 105 victory history settings auth paywall
+DEMOS := home newmatch match tiebreak 105 victory history settings
 
 # Самый новый доступный iPhone (не хардкодим имя).
 UDID = $(shell python3 scripts/pick_sim.py)

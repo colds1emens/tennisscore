@@ -4,10 +4,6 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AppRouter.self) private var router
     @Environment(AppSettings.self) private var settings
-    @Environment(StoreManager.self) private var store
-    @Environment(TrialManager.self) private var trial
-
-    @State private var showPaywall = false
 
     private var theme: CourtTheme { settings.theme }
 
@@ -19,11 +15,6 @@ struct HomeView: View {
                 header
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
-
-                if !store.isSubscribed {
-                    trialBadge
-                        .padding(.top, 12)
-                }
 
                 Spacer(minLength: 12)
 
@@ -57,29 +48,6 @@ struct HomeView: View {
                     .padding(.bottom, 10)
             }
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(allowsDismiss: true)
-        }
-    }
-
-    private var trialBadge: some View {
-        Button {
-            showPaywall = true
-        } label: {
-            HStack(spacing: 7) {
-                Image(systemName: "sparkles")
-                    .font(.system(.caption, design: .rounded).weight(.bold))
-                Text("Pro trial · \(trial.remainingText)")
-                    .font(.system(.caption, design: .rounded).weight(.semibold))
-            }
-            .foregroundStyle(theme.textPrimary)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 7)
-            .background(Capsule().fill(theme.accent.opacity(0.30)))
-            .overlay(Capsule().strokeBorder(theme.accent.opacity(0.5), lineWidth: 1))
-        }
-        .buttonStyle(SpringPressStyle())
-        .accessibilityLabel("Pro trial, \(trial.remainingText). Subscribe")
     }
 
     private var header: some View {
