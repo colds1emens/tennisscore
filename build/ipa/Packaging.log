@@ -1,0 +1,286 @@
+2026-06-14 14:13:39 +0000 [MT] Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0xa63dc1800; archive(resolved)="<IDEArchive: 0xa6236f480>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team(resolved)="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	Chain (15, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0xa63dc1800; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionProcessingPipelineContext: 0xa63dc1500; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61826f80; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61826a80; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61826800; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61826580; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61826300; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61826080; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61825e00; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61824f00; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61824c80; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61824a00; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="<IDEProvisioningBasicTeam: 0xa63e2c280; teamID='Q6N2Q4F53G', teamName='(null)'>">
+	<IDEDistributionContext: 0xa61824780; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="(null)">
+	<IDEDistributionContext: 0xa61824000; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="<IDEDistributionMethodiOSAppStoreDistribution: 0xa639e3d80>", team="(null)">
+	<IDEDistributionContext: 0x1059b2670; archive = "<IDEArchive: 0xa6236f480>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0xa63dc1800>
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionCreateDestRootStep
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionCopyItemStep
+2026-06-14 14:13:39 +0000 [MT] Running /usr/bin/ditto '-V' '/Users/colds1emens/tennis_app/build/TennisScore.xcarchive/Products/Applications/TennisScore.app' '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app'
+2026-06-14 14:13:39 +0000  >>> Copying /Users/colds1emens/tennis_app/build/TennisScore.xcarchive/Products/Applications/TennisScore.app 
+2026-06-14 14:13:39 +0000  copying file ./AppIcon60x60@2x.png ... 
+2026-06-14 14:13:39 +0000  12839 bytes for ./AppIcon60x60@2x.png
+2026-06-14 14:13:39 +0000  copying file ./Assets.car ... 
+2026-06-14 14:13:39 +0000  340696 bytes for ./Assets.car
+copying file ./AppIcon76x76@2x~ipad.png ... 
+2026-06-14 14:13:39 +0000  16598 bytes for ./AppIcon76x76@2x~ipad.png
+2026-06-14 14:13:39 +0000  copying file ./TennisScore ... 
+2026-06-14 14:13:39 +0000  959848 bytes for ./TennisScore
+2026-06-14 14:13:39 +0000  copying file ./Info.plist ... 
+2026-06-14 14:13:39 +0000  1390 bytes for ./Info.plist
+2026-06-14 14:13:39 +0000  copying file ./PkgInfo ... 
+2026-06-14 14:13:39 +0000  8 bytes for ./PkgInfo
+2026-06-14 14:13:39 +0000 [MT] /usr/bin/ditto exited with 0
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionEmbedProfileStep
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionInfoPlistStep
+2026-06-14 14:13:39 +0000 [MT] Skipping setting DTXcodeBuildDistribution because toolsBuildVersionName was nil.
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionItemRemovalStep
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionAppThinningPlistStep
+2026-06-14 14:13:39 +0000 [MT] Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionSymbolsStep
+2026-06-14 14:13:39 +0000 [MT] Writing /var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Symbols/F7B60156-C4C0-306E-B9C5-CD97E2A12535.symbols
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionCopyAppleProvidedContentStep
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionAppThinningStep
+2026-06-14 14:13:39 +0000 [MT] Skipping step: IDEDistributionAppThinningStep because it said so
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionArchThinningStep
+2026-06-14 14:13:39 +0000 [MT] Archs to thin for item /Users/colds1emens/tennis_app/build/TennisScore.xcarchive/Products/Applications/TennisScore.app are []
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionODRStep
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionStripXattrsStep
+2026-06-14 14:13:39 +0000 [MT] Skipping stripping extended attributes because the codesign step will strip them.
+2026-06-14 14:13:39 +0000 [MT] Processing step: IDEDistributionCodesignStep
+2026-06-14 14:13:39 +0000 [MT] Entitlements for <IDEDistributionItem: 0xa63dbd980; bundleID='com.efremov.tennisscore', path='<DVTFilePath:0xa63d73a80:'/Users/colds1emens/tennis_app/build/TennisScore.xcarchive/Products/Applications/TennisScore.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa63dbd9e0; isSigned='0', isAdHocSigned='0', signingCertificate='(null)', entitlements='(null)', teamID='(null)', identifier='(null)', executablePath='(null)', hardenedRuntime='0'>'>: {
+    "application-identifier" = "Q6N2Q4F53G.com.efremov.tennisscore";
+    "beta-reports-active" = 1;
+    "com.apple.developer.team-identifier" = Q6N2Q4F53G;
+    "get-task-allow" = 0;
+}
+2026-06-14 14:13:39 +0000 [MT] Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2026-06-14 14:13:39 +0000 [MT] Entitlements for <IDEDistributionItem: 0xa63dbd980; bundleID='com.efremov.tennisscore', path='<DVTFilePath:0xa63d73a80:'/Users/colds1emens/tennis_app/build/TennisScore.xcarchive/Products/Applications/TennisScore.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa63dbd9e0; isSigned='0', isAdHocSigned='0', signingCertificate='(null)', entitlements='(null)', teamID='(null)', identifier='(null)', executablePath='(null)', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "Q6N2Q4F53G.com.efremov.tennisscore";
+    "beta-reports-active" = 1;
+    "com.apple.developer.team-identifier" = Q6N2Q4F53G;
+    "get-task-allow" = 0;
+}
+2026-06-14 14:13:39 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0xa63dbd980; bundleID='com.efremov.tennisscore', path='<DVTFilePath:0xa63d73a80:'/Users/colds1emens/tennis_app/build/TennisScore.xcarchive/Products/Applications/TennisScore.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0xa63dbd9e0; isSigned='0', isAdHocSigned='0', signingCertificate='(null)', entitlements='(null)', teamID='(null)', identifier='(null)', executablePath='(null)', hardenedRuntime='0'>'> to: /var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/entitlements~~~bBpQ2S
+2026-06-14 14:13:39 +0000 [MT] invoking codesign: <NSConcreteTask: 0xa6412fb10; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    "-",
+    "--signature-size",
+    16000,
+    "--entitlements",
+    "/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/entitlements~~~bBpQ2S",
+    "--requirements",
+    "=designated => anchor apple generic and identifier \"com.efremov.tennisscore\" and certificate leaf[subject.CN] = \"Apple Distribution: Daniil Tarantinov (Q6N2Q4F53G)\" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */",
+    "--preserve-metadata=identifier,flags,runtime,launch-constraints,library-constraints",
+    "--omit-adhoc-flag",
+    "--team-identifier",
+    Q6N2Q4F53G,
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app"
+)'>
+2026-06-14 14:13:39 +0000 [MT] codesign output: /var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app: signed app bundle with Mach-O thin (arm64) [com.efremov.tennisscore]
+2026-06-14 14:13:39 +0000 [MT] Remote code signing '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app' with signature slices '[<DVTCodeSignatureSlice: 0xa63e30c30; architecture='arm64', cmsDigest='<DVTCodeSignatureHash: 0xa64037780; digestAlgorithmDescription='sha256', cdHashHexEncoded='1b106b3b67cd560b48a9e63d947eb72b22e70e8f9a9d96a911686d6b02c37f75'>', codeSignatureHashes='{(
+    <DVTCodeSignatureHash: 0xa64037540; digestAlgorithmDescription='sha256', cdHashHexEncoded='1b106b3b67cd560b48a9e63d947eb72b22e70e8f9a9d96a911686d6b02c37f75'>
+)}', cmsHexEncoded=''>]' and configuration 'RemoteSigningToolConfiguration(path: <DVTFilePath:0xa63f863a0:'/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app'>, signingCertificate: <DVTSigningCertificate: 0xa63ece100; name='Apple Distribution: Daniil Tarantinov (Q6N2Q4F53G)', hash='B4320FD0B1E98AA2E5053195FBD8B157A885237E', serialNumber='420150E741747ACA92B2C60A8B02AF60', certificateKinds='(
+    "1.2.840.113635.100.6.1.7",
+    "1.2.840.113635.100.6.1.4"
+), issueDate='2026-06-14 14:03:36 +0000''>, session: <DVTServicesAccountBasedSession: 0xa63f86dc0; account='<DVTAppleIDBasedDeveloperAccount: 0xa632b4240; username='mfc.daniil@gmail.com'>'>, team: <DVTPortalTeam: 0xa64158800; name='Daniil Tarantinov', teamID='Q6N2Q4F53G', type='Individual', memberships='(
+    "<DVTPortalMembership: 0xa63e313e0; programs='{(\n    <DVTPortalProgram: 0xa63f701e0; <DVTPortalProgram: 0xa63f701e0; identifier='Xcode.Portal.Program.iOS'>>\n)}'>",
+    "<DVTPortalMembership: 0xa63e30ba0; programs='{(\n    <DVTPortalProgram: 0xa63f70500; <DVTPortalProgram: 0xa63f70500; identifier='Xcode.Portal.Program.Mac'>>\n)}'>"
+)'>, codeResourcesDictionary: [:], enableSignatureValidation: true, logAspect: <DVTLogAspect:0xa63f85bc0:IDEDistributionPipeline:level=verbose(3):effective-level=verbose(3)>)'
+2026-06-14 14:13:39 +0000 [MT] Sending request B519B0FE-FA65-42E6-B5FA-0FE7980AF573 to <https://developerservices2.apple.com/services/v1/certificates> for session <DVTServicesAccountBasedSession: 0xa63f86dc0; account='<DVTAppleIDBasedDeveloperAccount: 0xa632b4240; username='mfc.daniil@gmail.com'>'>.
+Method: POST
+
+Headers:
+{
+    Accept = "application/vnd.api+json";
+    "Accept-Encoding" = "gzip, deflate";
+    "Content-Length" = 113;
+    "Content-Type" = "application/vnd.api+json";
+    DSESSIONID = 14afe9n6r12loidtr8phe3h52ohdo2b2b8gsfda7b915894c95g4;
+    "User-Agent" = Xcode;
+    "X-Apple-App-Info" = "com.apple.gs.xcode.auth";
+    "X-Apple-GS-Token" = "AAAABLwIAAAAAGour8QRDWdzLnhjb2RlLmF1dGi9AC1J5FFmyiBrQDb5N0tMmDBi/rJbarTAWMHrBWCy7hL//TqI+6m83CZNhIeVnXQyvRZmODxDdgkI19ON20D7pQ/e2/TFkZEzE7ZD9cHhflZSNa9ysr+ErYg0HdNk5gxA0RoUBDbIg3wA4EQ6QHM5lKCOgMj+";
+    "X-Apple-I-Identity-Id" = "000447-08-27528adf-d50b-4f3d-86d2-fb01fca1e3fb";
+    "X-HTTP-Method-Override" = GET;
+    "X-MMe-Client-Info" = "<Mac16,1> <macOS;26.0.1;25A362> <com.apple.AuthKit/1 (com.apple.dt.xcodebuild/24505)>";
+    "X-Mme-Device-Id" = "9DC74599-6696-574D-96BE-8028D3B3F7F9";
+    "X-Xcode-Version" = "26.3 (17C529)";
+}
+
+Payload:
+{"urlEncodedQueryParams":"teamId=Q6N2Q4F53G&filter%5BserialNumber%5D=420150E741747ACA92B2C60A8B02AF60&limit=200"}
+2026-06-14 14:13:40 +0000 [MT] Received response for B519B0FE-FA65-42E6-B5FA-0FE7980AF573 @ <https://developerservices2.apple.com/services/v1/certificates>. Code = 0
+2026-06-14 14:13:40 +0000 [MT] Response payload: {
+  "data" : [ {
+    "type" : "certificates",
+    "id" : "95SCY6XFM4",
+    "attributes" : {
+      "requesterEmail" : "mfc.daniil@gmail.com",
+      "serialNumber" : "420150E741747ACA92B2C60A8B02AF60",
+      "certificateContent" : "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",
+      "displayName" : "Daniil Tarantinov",
+      "requesterLastName" : "Tarantinov",
+      "csrContent" : null,
+      "machineName" : null,
+      "platform" : null,
+      "requesterFirstName" : "Daniil",
+      "machineId" : null,
+      "name" : "Apple Distribution: Daniil Tarantinov",
+      "responseId" : "0173d625-b89a-415d-9915-66a320c6f6db",
+      "expirationDate" : "2027-06-14T14:03:35.000+00:00",
+      "certificateType" : "DISTRIBUTION_MANAGED"
+    },
+    "links" : {
+      "self" : "https://developerservices2.apple.com:443/services/v1/certificates/95SCY6XFM4"
+    }
+  } ],
+  "links" : {
+    "self" : "https://developerservices2.apple.com:443/services/v1/certificates?filter%5BserialNumber%5D=420150E741747ACA92B2C60A8B02AF60&limit=200"
+  },
+  "meta" : {
+    "paging" : {
+      "total" : 1,
+      "limit" : 200
+    }
+  }
+}
+
+2026-06-14 14:13:40 +0000 [MT] Sending request C698FA98-56E2-42B1-AED8-90F17AA39881 to <https://developerservices3.apple.com/services/v1/batch> for session <DVTServicesAccountBasedSession: 0xa63f86dc0; account='<DVTAppleIDBasedDeveloperAccount: 0xa632b4240; username='mfc.daniil@gmail.com'>'>.
+Method: POST
+
+Headers:
+{
+    Accept = "application/vnd.api+json";
+    "Accept-Encoding" = "gzip, deflate";
+    "Content-Length" = 488;
+    "Content-Type" = "application/vnd.api+json";
+    DSESSIONID = 14afe9n6r12loidtr8phe3h52ohdo2b2b8gsfda7b915894c95g4;
+    "User-Agent" = Xcode;
+    "X-Apple-App-Info" = "com.apple.gs.xcode.auth";
+    "X-Apple-GS-Token" = "AAAABLwIAAAAAGour8QRDWdzLnhjb2RlLmF1dGi9AC1J5FFmyiBrQDb5N0tMmDBi/rJbarTAWMHrBWCy7hL//TqI+6m83CZNhIeVnXQyvRZmODxDdgkI19ON20D7pQ/e2/TFkZEzE7ZD9cHhflZSNa9ysr+ErYg0HdNk5gxA0RoUBDbIg3wA4EQ6QHM5lKCOgMj+";
+    "X-Apple-I-Identity-Id" = "000447-08-27528adf-d50b-4f3d-86d2-fb01fca1e3fb";
+    "X-MMe-Client-Info" = "<Mac16,1> <macOS;26.0.1;25A362> <com.apple.AuthKit/1 (com.apple.dt.xcodebuild/24505)>";
+    "X-Mme-Device-Id" = "9DC74599-6696-574D-96BE-8028D3B3F7F9";
+    "X-Xcode-Version" = "26.3 (17C529)";
+}
+
+Payload:
+{"data":{"attributes":{"teamId":"Q6N2Q4F53G","resourceList":[{"data":{"attributes":{"digestHash":"1B106B3B67CD560B48A9E63D947EB72B22E70E8F9A9D96A911686D6B02C37F75","teamId":"Q6N2Q4F53G","cdHashSha256":"1B106B3B67CD560B48A9E63D947EB72B22E70E8F9A9D96A911686D6B02C37F75","name":"0"},"relationships":{"bundleId":{"data":{"id":"D337Y3S9Z7","type":"bundleIds"}},"certificate":{"data":{"id":"95SCY6XFM4","type":"certificates"}}},"type":"codeSignatures"}}],"resourceVersion":"1"},"type":"batch"}}
+2026-06-14 14:13:41 +0000 [MT] Received response for C698FA98-56E2-42B1-AED8-90F17AA39881 @ <https://developerservices3.apple.com/services/v1/batch>. Code = 0
+2026-06-14 14:13:41 +0000 [MT] Response payload: {
+  "data" : {
+    "type" : "batch",
+    "id" : "22e96a2b-1ec8-4e58-ad19-da5ea1f7299b",
+    "attributes" : {
+      "responseId" : "22e96a2b-1ec8-4e58-ad19-da5ea1f7299b",
+      "resourceList" : [ {
+        "type" : "codeSignatures",
+        "id" : "a1c647b4-54dc-4a57-8688-4ad47dfe55c6",
+        "attributes" : {
+          "digestHash" : "1B106B3B67CD560B48A9E63D947EB72B22E70E8F9A9D96A911686D6B02C37F75",
+          "cdHashSha256" : "1B106B3B67CD560B48A9E63D947EB72B22E70E8F9A9D96A911686D6B02C37F75",
+          "signature" : "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",
+          "name" : "0",
+          "responseId" : "22e96a2b-1ec8-4e58-ad19-da5ea1f7299b",
+          "cmsSignature" : "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",
+          "timestamp" : false
+        },
+        "relationships" : {
+          "bundleId" : {
+            "data" : {
+              "type" : "bundleIds",
+              "id" : "D337Y3S9Z7"
+            },
+            "links" : {
+              "self" : {
+                "href" : "https://developerservices3.apple.com:443/services/v1/codeSignatures/a1c647b4-54dc-4a57-8688-4ad47dfe55c6/relationships/bundleId"
+              },
+              "related" : {
+                "href" : "https://developerservices3.apple.com:443/services/v1/codeSignatures/a1c647b4-54dc-4a57-8688-4ad47dfe55c6/bundleId"
+              }
+            }
+          },
+          "certificate" : {
+            "data" : {
+              "type" : "certificates",
+              "id" : "95SCY6XFM4"
+            },
+            "links" : {
+              "self" : {
+                "href" : "https://developerservices3.apple.com:443/services/v1/codeSignatures/a1c647b4-54dc-4a57-8688-4ad47dfe55c6/relationships/certificate"
+              },
+              "related" : {
+                "href" : "https://developerservices3.apple.com:443/services/v1/codeSignatures/a1c647b4-54dc-4a57-8688-4ad47dfe55c6/certificate"
+              }
+            }
+          }
+        },
+        "links" : {
+          "self" : {
+            "href" : "https://developerservices3.apple.com:443/services/v1/codeSignatures/a1c647b4-54dc-4a57-8688-4ad47dfe55c6"
+          }
+        }
+      } ],
+      "resourceVersion" : "1"
+    },
+    "links" : {
+      "self" : "https://developerservices3.apple.com:443/services/v1/batch/22e96a2b-1ec8-4e58-ad19-da5ea1f7299b"
+    }
+  },
+  "links" : {
+    "self" : "https://developerservices3.apple.com:443/services/v1/batch"
+  }
+}
+
+2026-06-14 14:13:41 +0000 [MT] Remote signature for /var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app (arch: arm64) is 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
+2026-06-14 14:13:41 +0000 [MT] invoking codesign: <NSConcreteTask: 0xa63f70af0; launchPath='/usr/bin/codesign', arguments='(
+    "-e",
+    "--edit-cms",
+    "/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/cms~~~elMQH0",
+    "/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app"
+)'>
+2026-06-14 14:13:41 +0000 [MT] codesign output: 
+2026-06-14 14:13:41 +0000 [MT] Processing step: IDEDistributionZipODRItemStep
+2026-06-14 14:13:41 +0000 [MT] Skipping step: IDEDistributionZipODRItemStep because it said so
+2026-06-14 14:13:41 +0000 [MT] Processing step: IDEDistributionCreateIPAStep
+2026-06-14 14:13:41 +0000 [MT] Running /usr/bin/rsync '-8aPhhE' '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Symbols' '--link-dest' '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9' '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root'
+2026-06-14 14:13:41 +0000  Symbols/
+._Symbols
+            163 170%    3.79MB/s   00:00:00 (xfer#1, to-check=0/4)
+2026-06-14 14:13:41 +0000  Symbols/F7B60156-C4C0-306E-B9C5-CD97E2A12535.symbols
+Symbols/._F7B60156-C4C0-306E-B9C5-CD97E2A12535.symbols
+            163   0%  394.13KB/s   00:00:00 (xfer#2, to-check=2/4)
+2026-06-14 14:13:41 +0000 [MT] /usr/bin/rsync exited with 0
+2026-06-14 14:13:41 +0000 [MT] Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root' '/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Packages/TennisScore.ipa'
+2026-06-14 14:13:41 +0000  >>> Copying /var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root 
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/_CodeSignature/CodeResources ... 
+2026-06-14 14:13:41 +0000  2775 bytes for ./Payload/TennisScore.app/_CodeSignature/CodeResources
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/AppIcon60x60@2x.png ... 
+2026-06-14 14:13:41 +0000  12839 bytes for ./Payload/TennisScore.app/AppIcon60x60@2x.png
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/Assets.car ... 
+2026-06-14 14:13:41 +0000  340696 bytes for ./Payload/TennisScore.app/Assets.car
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/AppIcon76x76@2x~ipad.png ... 
+2026-06-14 14:13:41 +0000  16598 bytes for ./Payload/TennisScore.app/AppIcon76x76@2x~ipad.png
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/embedded.mobileprovision ... 
+2026-06-14 14:13:41 +0000  12311 bytes for ./Payload/TennisScore.app/embedded.mobileprovision
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/TennisScore ... 
+2026-06-14 14:13:41 +0000  978960 bytes for ./Payload/TennisScore.app/TennisScore
+2026-06-14 14:13:41 +0000  copying file ./Payload/TennisScore.app/Info.plist ... 
+2026-06-14 14:13:41 +0000  1390 bytes for ./Payload/TennisScore.app/Info.plist
+copying file ./Payload/TennisScore.app/PkgInfo ... 
+2026-06-14 14:13:41 +0000  8 bytes for ./Payload/TennisScore.app/PkgInfo
+2026-06-14 14:13:41 +0000  copying file ./Symbols/F7B60156-C4C0-306E-B9C5-CD97E2A12535.symbols ... 
+2026-06-14 14:13:41 +0000  2913772 bytes for ./Symbols/F7B60156-C4C0-306E-B9C5-CD97E2A12535.symbols
+2026-06-14 14:13:41 +0000 [MT] /usr/bin/ditto exited with 0
+2026-06-14 14:13:41 +0000 [MT] Processing step: IDEDistributionAppStoreInformationStep
+2026-06-14 14:13:41 +0000 [MT] Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2026-06-14 14:13:41 +0000 [MT] Processing step: IDEDistributionGenerateProcessedDistributionItems
+2026-06-14 14:13:41 +0000 [MT] IDEDistributionItem init <DVTFilePath:0xa63f863a0:'/var/folders/hw/7f3g98495qd_t44x076z6tjh0000gn/T/XcodeDistPipeline.~~~TcxQN9/Root/Payload/TennisScore.app'>
+2026-06-14 14:13:41 +0000 [MT] Processing step: IDEDistributionCreateManifestStep
+2026-06-14 14:13:41 +0000 [MT] Skipping step: IDEDistributionCreateManifestStep because it said so

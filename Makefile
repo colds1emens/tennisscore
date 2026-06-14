@@ -81,19 +81,23 @@ print-udid:
 #   make ipa     TEAM_ID=AB12CD34EF   # затем загрузить build/ipa/*.ipa через Transporter
 ARCHIVE := build/TennisScore.xcarchive
 
+# Архив собираем БЕЗ подписи (новому аккаунту без устройств не нужен
+# development-профиль), а distribution-подпись ставим на экспорте —
+# App Store / distribution-профилю зарегистрированные устройства не требуются.
 archive: setup
-	@test -n "$(TEAM_ID)" || { echo "Укажи Team ID: make archive TEAM_ID=XXXXXXXXXX"; exit 1; }
 	xcodebuild -project TennisScore.xcodeproj -scheme TennisScore \
 		-configuration Release -destination 'generic/platform=iOS' \
-		-archivePath $(ARCHIVE) -allowProvisioningUpdates clean archive \
-		DEVELOPMENT_TEAM=$(TEAM_ID) CODE_SIGN_STYLE=Automatic CODE_SIGNING_ALLOWED=YES
+		-archivePath $(ARCHIVE) clean archive CODE_SIGNING_ALLOWED=NO
 	@echo "Архив готов: $(ARCHIVE)"
 
 ipa: archive
+	@test -n "$(TEAM_ID)" || { echo "Укажи Team ID: make ipa TEAM_ID=XXXXXXXXXX"; exit 1; }
+	@mkdir -p build
 	@sed 's/__TEAM_ID__/$(TEAM_ID)/' AppStore/ExportOptions.plist > build/ExportOptions.plist
 	xcodebuild -exportArchive -archivePath $(ARCHIVE) \
-		-exportPath build/ipa -exportOptionsPlist build/ExportOptions.plist
-	@echo "IPA готов: build/ipa/  — загрузи его через приложение Transporter или Xcode Organizer"
+		-exportPath build/ipa -exportOptionsPlist build/ExportOptions.plist \
+		-allowProvisioningUpdates
+	@echo "IPA готов: build/ipa/TennisScore.ipa — загрузи через приложение Transporter или Xcode Organizer"
 
 # Отобрать лучшие скриншоты в App Store-комплект (6.9\" 1320x2868).
 appstore-shots: shots
