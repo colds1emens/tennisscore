@@ -12,7 +12,10 @@ Everything needed to publish the app, version 1.0.0, bundle id `com.efremov.tenn
 | [APP_PRIVACY.md](APP_PRIVACY.md) | Exact App Privacy questionnaire answers | ASC → App Privacy (→ "Data Not Collected") |
 | [REVIEW_NOTES.md](REVIEW_NOTES.md) | Notes for the reviewer + compliance audit | ASC → App Review Information → Notes |
 | [ExportOptions.plist](ExportOptions.plist) | Export template for `make ipa` | used by the build |
-| [screenshots/](screenshots) | 6 screenshots, 1320×2868 (6.9") | ASC → screenshots (6.9" iPhone) |
+| [screenshots/](screenshots) | 6 iPhone shots, 1320×2868 (6.9") | ASC → screenshots → **iPhone 6.9"** |
+| [screenshots/ipad/](screenshots/ipad) | 6 iPad shots, 2064×2752 (13") | ASC → screenshots → **iPad 13"** |
+
+> The app is **universal (iPhone + iPad)**, so App Store Connect requires **both** a 6.9" iPhone set **and** a 13" iPad set. Both are ready in the folders above.
 
 ## Build commands (from repo root)
 ```bash
@@ -28,8 +31,9 @@ Or archive in Xcode: **Product → Destination = Any iOS Device → Product → 
 
 ## Status
 - Binary: free, offline, no account, no IAP, no data collected ✓
+- **Universal: iPhone + iPad, all orientations, adaptive layout** ✓
 - Release build compiles, version 1.0.0, encryption declared ✓
-- Screenshots: current build, no removed-feature artifacts, 6.9" size ✓
+- Screenshots: current build, no removed-feature artifacts — iPhone 6.9" + iPad 13" ✓
 - Listing copy: within all character limits ✓
 - Trademark-safe theme names ✓
 - App Review compliance audit: passed after fixes (see REVIEW_NOTES.md) ✓

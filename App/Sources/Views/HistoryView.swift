@@ -48,6 +48,7 @@ struct HistoryView: View {
                     }
                 }
             }
+            .readableWidth()
         }
         .sheet(item: $selected) { record in
             RecordDetailSheet(record: record)

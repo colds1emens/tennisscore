@@ -86,6 +86,7 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
+                .readableWidth()
             }
         }
         .alert("Preset name", isPresented: $showSavePreset) {

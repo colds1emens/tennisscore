@@ -48,6 +48,7 @@ struct Game105View: View {
                         .padding(.top, 6)
                         .padding(.bottom, 10)
                 }
+                .readableWidth(760)
             }
 
             ConfettiOverlay(bursts: viewModel.confettiBursts)

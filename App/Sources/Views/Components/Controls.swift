@@ -1,5 +1,15 @@
 import SwiftUI
 
+extension View {
+    /// Ограничивает контент по ширине и центрирует. На iPhone не влияет
+    /// (экран уже лимита), на iPad собирает интерфейс в аккуратную колонку,
+    /// а не растягивает на весь экран.
+    func readableWidth(_ maxWidth: CGFloat = 620) -> some View {
+        frame(maxWidth: maxWidth)
+            .frame(maxWidth: .infinity)
+    }
+}
+
 /// Пружинящее нажатие: кнопка мягко сжимается под пальцем.
 struct SpringPressStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

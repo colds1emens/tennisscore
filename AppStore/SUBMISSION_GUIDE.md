@@ -106,11 +106,13 @@ What these do under the hood:
 
 Back in App Store Connect → **My Apps → Tennis Score → (1.0 Prepare for Submission)**:
 
-**Screenshots** (required — at least one 6.9" iPhone set):
-- Scroll to the **iPhone** screenshot section, choose the **6.9" Display** size class, and drag in the six PNGs from `/Users/colds1emens/tennis_app/AppStore/screenshots/`:
-  `home.png`, `match.png`, `105.png`, `victory.png`, `history.png`, `settings.png` (all 1320×2868, the exact required resolution).
-- One 6.9" set covers all modern iPhones — you do **not** need other sizes.
-- (To regenerate these from the simulator later: `make appstore-shots`.)
+**Screenshots** — the app is **universal**, so you upload TWO sets (both ready):
+- **iPhone** section → **6.9" Display** size class → drag in the six PNGs from `/Users/colds1emens/tennis_app/AppStore/screenshots/`:
+  `home.png`, `match.png`, `105.png`, `victory.png`, `history.png`, `settings.png` (all 1320×2868).
+- **iPad** section → **13" Display** size class → drag in the six PNGs from `/Users/colds1emens/tennis_app/AppStore/screenshots/ipad/`:
+  same names (all 2064×2752).
+- One set per size class covers all modern devices in that family — no other sizes needed.
+- (To regenerate the iPhone set later: `make appstore-shots`. The iPad set was captured on the iPad Pro 13" simulator.)
 
 **Text metadata:**
 - **Promotional Text** (optional, editable anytime): e.g. *"Score real tennis matches and run '105' shot-value practice — fully offline, no ads, no accounts."*

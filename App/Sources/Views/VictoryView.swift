@@ -45,6 +45,7 @@ struct VictoryView: View {
                     .padding(.horizontal, 24)
                     .padding(.bottom, 16)
             }
+            .readableWidth(560)
         }
         .toolbar(.hidden, for: .navigationBar)
     }

@@ -48,6 +48,7 @@ struct MatchView: View {
                     hint
                         .padding(.bottom, 10)
                 }
+                .readableWidth(820)
             }
 
             ConfettiOverlay(bursts: viewModel.confettiBursts)

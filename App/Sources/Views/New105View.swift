@@ -99,6 +99,7 @@ struct New105View: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
+                .readableWidth()
             }
             .scrollDismissesKeyboard(.interactively)
         }
