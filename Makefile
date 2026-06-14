@@ -9,7 +9,7 @@ DEMOS := home newmatch match tiebreak 105 victory history settings
 # Самый новый доступный iPhone (не хардкодим имя).
 UDID = $(shell python3 scripts/pick_sim.py)
 
-.PHONY: setup test typecheck build run shots icon clean
+.PHONY: setup test typecheck build run shots icon clean archive ipa appstore-shots
 
 setup:
 	@if ! command -v xcodegen >/dev/null && [ ! -x ./tools/xcodegen/bin/xcodegen ]; then \
@@ -69,7 +69,36 @@ shots: build boot
 	@echo "Скриншоты: ./screenshots"
 
 clean:
-	rm -rf $(DERIVED) TennisScore.xcodeproj screenshots
+	rm -rf $(DERIVED) TennisScore.xcodeproj screenshots build
 
 print-udid:
 	@echo "UDID=$(UDID)"
+
+# --- App Store ---
+# Подготовка релизного архива и .ipa. Требуется 10-символьный Team ID
+# из developer.apple.com (Membership). Пример:
+#   make archive TEAM_ID=AB12CD34EF
+#   make ipa     TEAM_ID=AB12CD34EF   # затем загрузить build/ipa/*.ipa через Transporter
+ARCHIVE := build/TennisScore.xcarchive
+
+archive: setup
+	@test -n "$(TEAM_ID)" || { echo "Укажи Team ID: make archive TEAM_ID=XXXXXXXXXX"; exit 1; }
+	xcodebuild -project TennisScore.xcodeproj -scheme TennisScore \
+		-configuration Release -destination 'generic/platform=iOS' \
+		-archivePath $(ARCHIVE) clean archive \
+		DEVELOPMENT_TEAM=$(TEAM_ID) CODE_SIGN_STYLE=Automatic CODE_SIGNING_ALLOWED=YES
+	@echo "Архив готов: $(ARCHIVE)"
+
+ipa: archive
+	@sed 's/__TEAM_ID__/$(TEAM_ID)/' AppStore/ExportOptions.plist > build/ExportOptions.plist
+	xcodebuild -exportArchive -archivePath $(ARCHIVE) \
+		-exportPath build/ipa -exportOptionsPlist build/ExportOptions.plist
+	@echo "IPA готов: build/ipa/  — загрузи его через приложение Transporter или Xcode Organizer"
+
+# Отобрать лучшие скриншоты в App Store-комплект (6.9\" 1320x2868).
+appstore-shots: shots
+	@mkdir -p AppStore/screenshots
+	@for s in home match 105 victory history settings; do \
+		cp screenshots/$$s.png AppStore/screenshots/$$s.png; \
+	done
+	@echo "App Store скриншоты: ./AppStore/screenshots"
