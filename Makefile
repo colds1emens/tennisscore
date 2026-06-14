@@ -85,7 +85,7 @@ archive: setup
 	@test -n "$(TEAM_ID)" || { echo "Укажи Team ID: make archive TEAM_ID=XXXXXXXXXX"; exit 1; }
 	xcodebuild -project TennisScore.xcodeproj -scheme TennisScore \
 		-configuration Release -destination 'generic/platform=iOS' \
-		-archivePath $(ARCHIVE) clean archive \
+		-archivePath $(ARCHIVE) -allowProvisioningUpdates clean archive \
 		DEVELOPMENT_TEAM=$(TEAM_ID) CODE_SIGN_STYLE=Automatic CODE_SIGNING_ALLOWED=YES
 	@echo "Архив готов: $(ARCHIVE)"
 
