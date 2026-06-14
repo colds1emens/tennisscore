@@ -7,7 +7,8 @@
 - SwiftUI · iOS 17+ · без зависимостей · полностью офлайн
 - Интерфейс приложения — на английском языке
 - Логика счёта — отдельный Swift Package `TennisEngine` (48 unit-тестов)
-- 4 темы корта: Уимблдон, Ролан Гаррос, US Open, Мельбурн (light/dark)
+- 4 темы корта: Grass, Clay, Hard · Blue, Melbourne (light/dark)
+- Готов к публикации: комплект для App Store в [AppStore/](AppStore/README.md)
 - История игр и пресеты правил — SwiftData
 - Bundle ID: `com.efremov.tennisscore`
 
