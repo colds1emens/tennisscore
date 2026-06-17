@@ -69,7 +69,7 @@ struct SettingsView: View {
                             HStack {
                                 TennisBall(size: 28)
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text("Tennis Score")
+                                    Text("Winner 105")
                                         .font(.system(.body, design: .rounded).weight(.bold))
                                         .foregroundStyle(theme.textPrimary)
                                     Text("Match and practice scoring · offline")

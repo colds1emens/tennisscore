@@ -146,7 +146,7 @@ private struct ShareableCard<Content: View>: View {
         if let image = shareImage {
             ShareLink(
                 item: Image(uiImage: image),
-                preview: SharePreview("Tennis Score — result", image: Image(uiImage: image))
+                preview: SharePreview("Winner 105 — result", image: Image(uiImage: image))
             ) {
                 HStack(spacing: 8) {
                     Image(systemName: "square.and.arrow.up")

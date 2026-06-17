@@ -54,11 +54,11 @@ struct HomeView: View {
     private var header: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("TENNIS")
+                Text("WINNER")
                     .font(.system(size: 34, weight: .heavy, design: .rounded))
                     .foregroundStyle(theme.textPrimary)
                     .tracking(4)
-                Text("SCORE")
+                Text("105")
                     .font(.system(size: 34, weight: .heavy, design: .rounded))
                     .foregroundStyle(theme.accent == .white ? theme.textPrimary : theme.accent)
                     .tracking(4)
@@ -68,7 +68,7 @@ struct HomeView: View {
             TennisBall(size: 44)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Tennis Score")
+        .accessibilityLabel("Winner 105")
     }
 
     private var footer: some View {
