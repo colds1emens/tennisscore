@@ -67,6 +67,8 @@ struct RootView: View {
             break
         case .newmatch:
             router.path = [.newMatch]
+        case .new105:
+            router.path = [.new105]
         case .match:
             router.matchSession = DemoFactory.midMatchSession(settings: settings)
             router.path = [.match]
@@ -91,6 +93,7 @@ struct RootView: View {
 enum DemoTarget: String {
     case home
     case newmatch
+    case new105
     case match
     case tiebreak
     case game105 = "105"

@@ -27,11 +27,9 @@ struct SettingsView: View {
                     }
 
                     GlassCard(theme: theme) {
-                        VStack(spacing: 14) {
+                        VStack(spacing: 12) {
                             sectionLabel("Points in “105”")
-                            ForEach($settings.categories, id: \.id) { $category in
-                                categoryRow($category)
-                            }
+                            CategoryListEditor(categories: $settings.categories, theme: theme)
                         }
                     }
 
@@ -77,7 +75,7 @@ struct SettingsView: View {
                                         .foregroundStyle(theme.textSecondary)
                                 }
                                 Spacer()
-                                Text("1.0")
+                                Text(Bundle.main.appVersionString)
                                     .font(.system(.footnote, design: .rounded).monospacedDigit())
                                     .foregroundStyle(theme.textSecondary)
                             }
@@ -96,45 +94,6 @@ struct SettingsView: View {
         } message: {
             Text("Current point values will be saved as a preset")
         }
-    }
-
-    // MARK: - Категории
-
-    private func categoryRow(_ category: Binding<PointCategory>) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: CategoryInfo.symbol(category.wrappedValue.id))
-                .font(.system(.body, design: .rounded).weight(.semibold))
-                .foregroundStyle(category.wrappedValue.isEnabled ? theme.accent : theme.textSecondary.opacity(0.4))
-                .brightness(0.2)
-                .frame(width: 26)
-
-            VStack(alignment: .leading, spacing: 1) {
-                Text(CategoryInfo.longTitle(category.wrappedValue.id))
-                    .font(.system(.subheadline, design: .rounded).weight(.medium))
-                    .foregroundStyle(
-                        category.wrappedValue.isEnabled ? theme.textPrimary : theme.textSecondary.opacity(0.5)
-                    )
-                if category.wrappedValue.id == PointCategory.lobID {
-                    Toggle("Category enabled", isOn: category.isEnabled)
-                        .labelsHidden()
-                        .toggleStyle(InlineCheckToggle(theme: theme))
-                }
-            }
-
-            Spacer()
-
-            ValueStepper(
-                value: category.value,
-                range: 1...100,
-                theme: theme
-            )
-            .opacity(category.wrappedValue.isEnabled ? 1 : 0.35)
-            .disabled(!category.wrappedValue.isEnabled)
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(
-            "\(CategoryInfo.longTitle(category.wrappedValue.id)): \(category.wrappedValue.value) points"
-        )
     }
 
     // MARK: - Пресеты
@@ -230,26 +189,5 @@ struct SettingsView: View {
                 .foregroundStyle(theme.textSecondary)
             Spacer()
         }
-    }
-}
-
-/// Маленький инлайновый чекбокс «включена/выключена» для категории.
-private struct InlineCheckToggle: ToggleStyle {
-    let theme: CourtTheme
-
-    func makeBody(configuration: Configuration) -> some View {
-        Button {
-            configuration.isOn.toggle()
-            Haptics.selection()
-        } label: {
-            HStack(spacing: 4) {
-                Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                    .font(.system(size: 11))
-                Text(configuration.isOn ? "enabled" : "disabled")
-                    .font(.system(.caption2, design: .rounded))
-            }
-            .foregroundStyle(theme.textSecondary)
-        }
-        .buttonStyle(.plain)
     }
 }

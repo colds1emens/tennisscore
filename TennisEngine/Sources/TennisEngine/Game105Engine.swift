@@ -18,15 +18,28 @@ public enum FeedRule: String, Codable, Sendable, CaseIterable, Hashable {
 
 /// Тип начисления очков в «105».
 public struct PointCategory: Codable, Equatable, Hashable, Identifiable, Sendable {
-    /// Стабильный идентификатор: "error", "winner", "volley", "lob", "smash".
+    /// Стабильный идентификатор: встроенные — "error"/"winner"/…,
+    /// пользовательские — "custom-<uuid>".
     public let id: String
     public var value: Int
     public var isEnabled: Bool
+    /// Название пользовательской категории (для встроенных — nil, берётся из UI).
+    public var customTitle: String?
+    /// SF Symbol пользовательской категории (для встроенных — nil).
+    public var symbolName: String?
 
-    public init(id: String, value: Int, isEnabled: Bool = true) {
+    public init(
+        id: String,
+        value: Int,
+        isEnabled: Bool = true,
+        customTitle: String? = nil,
+        symbolName: String? = nil
+    ) {
         self.id = id
         self.value = value
         self.isEnabled = isEnabled
+        self.customTitle = customTitle
+        self.symbolName = symbolName
     }
 
     public static let errorID = "error"
@@ -34,6 +47,20 @@ public struct PointCategory: Codable, Equatable, Hashable, Identifiable, Sendabl
     public static let volleyID = "volley"
     public static let lobID = "lob"
     public static let smashID = "smash"
+
+    /// Пользовательская (созданная игроком) категория?
+    public var isCustom: Bool { id.hasPrefix("custom-") }
+
+    /// Создать пользовательскую категорию с именем и стоимостью (можно отрицательной).
+    public static func custom(title: String, value: Int, symbol: String? = nil) -> PointCategory {
+        PointCategory(
+            id: "custom-\(UUID().uuidString)",
+            value: value,
+            isEnabled: true,
+            customTitle: title,
+            symbolName: symbol
+        )
+    }
 
     /// Стандартный набор: ошибка +1, виннер +5, с лёта +10, свеча +10, смэш +20.
     public static func standardSet() -> [PointCategory] {

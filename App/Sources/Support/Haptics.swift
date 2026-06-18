@@ -58,3 +58,10 @@ struct KeepScreenAwake: ViewModifier {
 extension View {
     func keepScreenAwake() -> some View { modifier(KeepScreenAwake()) }
 }
+
+extension Bundle {
+    /// Маркетинговая версия приложения для экрана «О приложении».
+    var appVersionString: String {
+        (infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0"
+    }
+}

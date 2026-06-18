@@ -17,6 +17,21 @@ final class Game105ViewModel {
     /// Последнее начисление для анимации «вылетающей капсулы».
     var lastAward: AwardFlash?
     var savedToHistory = false
+    /// Стороны поменяны местами (игроки сменили концы) — влияет только на
+    /// отображение: верхняя/нижняя зона показывают другую сторону движка.
+    var sidesSwapped = false
+
+    /// Сторона движка, показываемая в верхней зоне (или левой в ландшафте).
+    var topSide: Side { sidesSwapped ? .b : .a }
+    /// Сторона движка, показываемая в нижней зоне (или правой в ландшафте).
+    var bottomSide: Side { sidesSwapped ? .a : .b }
+
+    func swapSides() {
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.78)) {
+            sidesSwapped.toggle()
+        }
+        Haptics.selection()
+    }
 
     struct AwardFlash: Equatable, Identifiable {
         let id: Int
@@ -59,18 +74,25 @@ final class Game105ViewModel {
         }
     }
 
+    /// Название категории по id (учитывает кастомные).
+    private func categoryTitle(_ id: String) -> String {
+        engine.config.category(id: id)?.displayTitle ?? CategoryInfo.title(id)
+    }
+
+    private func signed(_ value: Int) -> String {
+        value < 0 ? "−\(abs(value))" : "+\(value)"
+    }
+
     func undo() {
         guard let event = engine.undo() else { return }
         Haptics.warning()
-        let sideName = event.side == .a ? "A" : "B"
-        showToast("Undone: \(CategoryInfo.title(event.categoryID)) +\(event.value), side \(sideName)")
+        showToast("Undone: \(categoryTitle(event.categoryID)) \(signed(event.value)), \(name(event.side))")
     }
 
     func redo() {
         guard let event = engine.redo() else { return }
         Haptics.impact(value: event.value, maxValue: engine.config.maxEnabledValue)
-        let sideName = event.side == .a ? "A" : "B"
-        showToast("Redone: \(CategoryInfo.title(event.categoryID)) +\(event.value), side \(sideName)")
+        showToast("Redone: \(categoryTitle(event.categoryID)) \(signed(event.value)), \(name(event.side))")
     }
 
     private func showToast(_ text: String) {
@@ -92,10 +114,9 @@ final class Game105ViewModel {
 
     var recentLines: [TickerLine] {
         engine.recentEvents(limit: 5).reversed().map { event in
-            let sideName = event.side == .a ? sideA : sideB
-            return TickerLine(
+            TickerLine(
                 id: event.id,
-                text: "\(sideName): \(CategoryInfo.title(event.categoryID).lowercased()) +\(event.value)"
+                text: "\(name(event.side)): \(categoryTitle(event.categoryID).lowercased()) \(signed(event.value))"
             )
         }
     }

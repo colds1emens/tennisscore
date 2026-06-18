@@ -169,11 +169,11 @@ enum CategoryInfo {
 
     static func longTitle(_ id: String) -> String {
         switch id {
-        case PointCategory.errorID: return "Opponent error"
+        case PointCategory.errorID: return "Error"
         case PointCategory.winnerID: return "Clean winner"
         case PointCategory.volleyID: return "Volley winner"
         case PointCategory.lobID: return "Lob winner"
-        case PointCategory.smashID: return "Volley smash"
+        case PointCategory.smashID: return "Overhead Smash"
         default: return id
         }
     }
@@ -185,7 +185,35 @@ enum CategoryInfo {
         case PointCategory.volleyID: return "figure.tennis"
         case PointCategory.lobID: return "arrow.up.forward"
         case PointCategory.smashID: return "flame"
-        default: return "circle"
+        default: return "star.circle"
         }
+    }
+
+    /// Символ по умолчанию для новых пользовательских категорий.
+    static let customDefaultSymbol = "star.circle.fill"
+}
+
+extension PointCategory {
+    /// Короткое название для кнопок (кастомное или встроенное).
+    var displayTitle: String {
+        if let customTitle, !customTitle.isEmpty { return customTitle }
+        return CategoryInfo.title(id)
+    }
+
+    /// Длинное название для настроек (кастомное или встроенное).
+    var displayLongTitle: String {
+        if let customTitle, !customTitle.isEmpty { return customTitle }
+        return CategoryInfo.longTitle(id)
+    }
+
+    /// SF Symbol (кастомный или встроенный).
+    var displaySymbol: String {
+        if let symbolName, !symbolName.isEmpty { return symbolName }
+        return CategoryInfo.symbol(id)
+    }
+
+    /// Подпись стоимости со знаком: «+5» или «−3».
+    var signedValueText: String {
+        value < 0 ? "−\(abs(value))" : "+\(value)"
     }
 }

@@ -335,7 +335,7 @@ struct Game105ResultCard: View {
             }
             ForEach(lines) { line in
                 HStack(spacing: 4) {
-                    Text("\(CategoryInfo.title(line.categoryID)) ×\(line.count)")
+                    Text("\(detail.config.category(id: line.categoryID)?.displayTitle ?? CategoryInfo.title(line.categoryID)) ×\(line.count)")
                         .font(.system(.caption, design: .rounded))
                         .foregroundStyle(theme.textSecondary)
                     Spacer(minLength: 4)

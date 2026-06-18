@@ -23,22 +23,17 @@ struct Game105View: View {
                         .padding(.top, 8)
 
                     if isLandscape {
-                        feedCapsule
-                            .padding(.top, 4)
                         HStack(spacing: 12) {
-                            SideZone(viewModel: viewModel, side: .a)
-                            Rectangle()
-                                .fill(Color.white.opacity(0.15))
-                                .frame(width: 1)
-                                .padding(.vertical, 20)
-                            SideZone(viewModel: viewModel, side: .b)
+                            SideZone(viewModel: viewModel, side: viewModel.topSide)
+                            swapDivider(vertical: true)
+                            SideZone(viewModel: viewModel, side: viewModel.bottomSide)
                         }
                         .padding(.horizontal, 16)
                     } else {
                         VStack(spacing: 6) {
-                            SideZone(viewModel: viewModel, side: .a)
-                            feedDivider
-                            SideZone(viewModel: viewModel, side: .b)
+                            SideZone(viewModel: viewModel, side: viewModel.topSide)
+                            swapDivider(vertical: false)
+                            SideZone(viewModel: viewModel, side: viewModel.bottomSide)
                         }
                         .padding(.horizontal, 16)
                     }
@@ -78,7 +73,7 @@ struct Game105View: View {
     private var header: some View {
         ScreenHeader(
             title: "First to \(engine.config.targetScore)",
-            subtitle: engine.config.winByTwo ? "Win by 2 points" : nil,
+            subtitle: nil,
             theme: theme,
             onBack: { router.popToRoot() },
             trailing: AnyView(
@@ -104,55 +99,41 @@ struct Game105View: View {
         )
     }
 
-    // MARK: - Индикатор наброса
+    // MARK: - Разделитель со «сменой сторон»
 
-    private var feedDivider: some View {
-        HStack(spacing: 10) {
-            line
-            feedCapsule
-            line
+    private func swapDivider(vertical: Bool) -> some View {
+        let button = Button {
+            viewModel.swapSides()
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "arrow.up.arrow.down")
+                Text("Swap sides")
+            }
+            .font(.system(.caption, design: .rounded).weight(.semibold))
+            .foregroundStyle(theme.textSecondary)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 5)
+            .background(Capsule().fill(.black.opacity(0.3)))
+            .overlay(Capsule().strokeBorder(Color.white.opacity(0.14), lineWidth: 1))
         }
-        .frame(maxWidth: .infinity)
-    }
+        .buttonStyle(SpringPressStyle())
+        .accessibilityLabel("Swap the two sides")
 
-    /// Капсула «кто набрасывает»: мяч мягко смещается к нужной половине.
-    private var feedCapsule: some View {
-        let feeding = engine.feedingSide
-        return HStack(spacing: 7) {
-            TennisBall(size: 14)
-            Text(feedLabel)
-                .font(.system(.caption, design: .rounded).weight(.semibold))
-                .foregroundStyle(theme.textSecondary)
-                .lineLimit(1)
-                .fixedSize()
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 5)
-        .background(Capsule().fill(.black.opacity(0.25)))
-        .offset(y: feedOffset(feeding))
-        .animation(.spring(response: 0.55, dampingFraction: 0.7), value: feeding)
-        .accessibilityLabel(feedLabel)
-    }
-
-    private var line: some View {
-        Rectangle()
-            .fill(Color.white.opacity(0.15))
-            .frame(height: 1)
-    }
-
-    private func feedOffset(_ feeding: Side?) -> CGFloat {
-        guard let feeding else { return 0 }
-        return feeding == .a ? -7 : 7
-    }
-
-    private var feedLabel: String {
-        guard let feeding = engine.feedingSide else {
-            return "Anyone feeds first"
-        }
-        let name = viewModel.name(feeding)
-        switch engine.config.feedRule {
-        case .winnerFeeds: return "Feeding: \(name)"
-        case .coachFeedsLoser: return "Coach feeds: \(name)"
+        return Group {
+            if vertical {
+                ZStack {
+                    Rectangle().fill(Color.white.opacity(0.15)).frame(width: 1)
+                    button
+                }
+                .frame(maxHeight: .infinity)
+                .padding(.vertical, 20)
+            } else {
+                HStack(spacing: 10) {
+                    Rectangle().fill(Color.white.opacity(0.15)).frame(height: 1)
+                    button
+                    Rectangle().fill(Color.white.opacity(0.15)).frame(height: 1)
+                }
+            }
         }
     }
 
@@ -264,37 +245,37 @@ private struct AwardButton: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 2) {
-                HStack(spacing: 4) {
-                    Image(systemName: CategoryInfo.symbol(category.id))
-                        .font(.system(.caption, design: .rounded).weight(.semibold))
-                        .foregroundStyle(theme.textSecondary)
-                    Text(CategoryInfo.title(category.id))
+            VStack(spacing: 3) {
+                HStack(spacing: 5) {
+                    Image(systemName: category.displaySymbol)
                         .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .foregroundStyle(theme.textSecondary)
+                    Text(category.displayTitle)
+                        .font(.system(.body, design: .rounded).weight(.semibold))
                         .foregroundStyle(theme.textPrimary)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.7)
+                        .minimumScaleFactor(0.65)
                 }
-                Text("+\(category.value)")
-                    .font(.system(.title3, design: .rounded).weight(.heavy).monospacedDigit())
-                    .foregroundStyle(theme.accent)
-                    .brightness(0.25)
+                Text(category.signedValueText)
+                    .font(.system(.title2, design: .rounded).weight(.heavy).monospacedDigit())
+                    .foregroundStyle(category.value < 0 ? Color(red: 1.0, green: 0.55, blue: 0.5) : theme.accent)
+                    .brightness(category.value < 0 ? 0 : 0.25)
             }
             .padding(.horizontal, 8)
             .frame(maxWidth: .infinity)
-            .frame(minHeight: 64)
+            .frame(minHeight: 78)
             .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .fill(theme.cardFill)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .strokeBorder(theme.cardStroke, lineWidth: 1)
             )
-            .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .contentShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         }
         .buttonStyle(SpringPressStyle())
-        .accessibilityLabel("\(sideName): \(CategoryInfo.longTitle(category.id)), plus \(category.value) points")
+        .accessibilityLabel("\(sideName): \(category.displayLongTitle), \(category.value < 0 ? "minus \(abs(category.value))" : "plus \(category.value)") points")
     }
 }
 
@@ -305,12 +286,12 @@ private struct FlyingValue: View {
     @State private var appeared = false
 
     var body: some View {
-        Text("+\(value)")
+        Text(value < 0 ? "−\(abs(value))" : "+\(value)")
             .font(.system(.headline, design: .rounded).weight(.heavy).monospacedDigit())
-            .foregroundStyle(theme.onAccent)
+            .foregroundStyle(value < 0 ? .white : theme.onAccent)
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
-            .background(Capsule().fill(theme.accent))
+            .background(Capsule().fill(value < 0 ? Color(red: 0.85, green: 0.3, blue: 0.27) : theme.accent))
             .opacity(appeared ? 0 : 1)
             .offset(y: appeared ? -34 : 14)
             .scaleEffect(appeared ? 0.8 : 1)

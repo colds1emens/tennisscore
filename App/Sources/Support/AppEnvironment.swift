@@ -8,8 +8,6 @@ final class AppSettings {
     private static let categoriesKey = "settings.categories.v1"
     private static let themeKey = "settings.theme.v1"
     private static let targetKey = "settings.target105.v1"
-    private static let winByTwoKey = "settings.winByTwo105.v1"
-    private static let feedRuleKey = "settings.feedRule105.v1"
 
     /// Текущие значения очков «105» (редактируются в настройках).
     var categories: [PointCategory] {
@@ -25,14 +23,6 @@ final class AppSettings {
         didSet { defaults.set(targetScore, forKey: Self.targetKey) }
     }
 
-    var winByTwo: Bool {
-        didSet { defaults.set(winByTwo, forKey: Self.winByTwoKey) }
-    }
-
-    var feedRule: FeedRule {
-        didSet { defaults.set(feedRule.rawValue, forKey: Self.feedRuleKey) }
-    }
-
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         if let data = defaults.data(forKey: Self.categoriesKey),
@@ -44,8 +34,6 @@ final class AppSettings {
         theme = defaults.string(forKey: Self.themeKey).flatMap(CourtTheme.init(rawValue:)) ?? .wimbledon
         let target = defaults.integer(forKey: Self.targetKey)
         targetScore = target > 0 ? target : 105
-        winByTwo = defaults.bool(forKey: Self.winByTwoKey)
-        feedRule = defaults.string(forKey: Self.feedRuleKey).flatMap(FeedRule.init(rawValue:)) ?? .winnerFeeds
     }
 
     private func save() {
@@ -60,15 +48,6 @@ final class AppSettings {
         let defaults = UserDefaults(suiteName: suiteName) ?? .standard
         defaults.removePersistentDomain(forName: suiteName)
         return AppSettings(defaults: defaults)
-    }
-
-    func game105Config() -> Game105Config {
-        Game105Config(
-            targetScore: targetScore,
-            winByTwo: winByTwo,
-            categories: categories,
-            feedRule: feedRule
-        )
     }
 }
 
