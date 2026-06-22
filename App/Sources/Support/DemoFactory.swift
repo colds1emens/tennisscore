@@ -53,7 +53,11 @@ enum DemoFactory {
         for (category, side) in script {
             engine.award(category, to: side)
         }
-        return Game105ViewModel(sideA: "Eagles", sideB: "Hawks", theme: settings.theme, engine: engine)
+        return Game105ViewModel(
+            sideA: "Team A", sideB: "Team B",
+            playersA: ["Daniil", "Mike", "Alex"], playersB: ["Tim", "John", "Nick"],
+            theme: settings.theme, engine: engine
+        )
     }
 
     /// Завершённая игра 105:76 — для экрана победы.
@@ -73,7 +77,11 @@ enum DemoFactory {
         for (category, side) in script {
             engine.award(category, to: side)
         }
-        let viewModel = Game105ViewModel(sideA: "Eagles", sideB: "Hawks", theme: settings.theme, engine: engine)
+        let viewModel = Game105ViewModel(
+            sideA: "Team A", sideB: "Team B",
+            playersA: ["Daniil", "Mike", "Alex"], playersB: ["Tim", "John", "Nick"],
+            theme: settings.theme, engine: engine
+        )
         viewModel.savedToHistory = true
         return viewModel
     }
@@ -124,7 +132,7 @@ enum DemoFactory {
         game.award(PointCategory.winnerID, to: .b)                     // 95
         game.award(PointCategory.errorID, to: .b)                      // 96
         for _ in 0..<5 { game.award(PointCategory.errorID, to: .a) }   // 105
-        if let detail = makeGame105Detail(game, sideA: "Eagles", sideB: "Hawks") {
+        if let detail = makeGame105Detail(game, sideA: "Team A", sideB: "Team B", playersA: ["Daniil", "Mike", "Alex"], playersB: ["Tim", "John", "Nick"]) {
             context.insert(GameRecord.record(game105: detail, theme: .melbourne, date: now.addingTimeInterval(-3600 * 26)))
         }
 
@@ -137,7 +145,7 @@ enum DemoFactory {
         for _ in 0..<5 { single.award(PointCategory.volleyID, to: .a) } // 50
         for _ in 0..<2 { single.award(PointCategory.smashID, to: .a) }  // 90
         for _ in 0..<3 { single.award(PointCategory.winnerID, to: .a) } // 105
-        if let detail = makeGame105Detail(single, sideA: "Dima", sideB: "Kostya") {
+        if let detail = makeGame105Detail(single, sideA: "Team A", sideB: "Team B", playersA: ["Dima"], playersB: ["Kostya"]) {
             context.insert(GameRecord.record(game105: detail, theme: .wimbledon, date: now.addingTimeInterval(-86_400 * 3)))
         }
     }
@@ -185,11 +193,19 @@ enum DemoFactory {
         )
     }
 
-    private static func makeGame105Detail(_ engine: Game105Engine, sideA: String, sideB: String) -> Game105Detail? {
+    private static func makeGame105Detail(
+        _ engine: Game105Engine,
+        sideA: String,
+        sideB: String,
+        playersA: [String] = [],
+        playersB: [String] = []
+    ) -> Game105Detail? {
         guard let winner = engine.winner else { return nil }
         return Game105Detail(
             sideA: sideA,
             sideB: sideB,
+            playersA: playersA.isEmpty ? nil : playersA,
+            playersB: playersB.isEmpty ? nil : playersB,
             config: engine.config,
             scoreA: engine.score(of: .a),
             scoreB: engine.score(of: .b),

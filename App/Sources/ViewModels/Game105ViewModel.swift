@@ -8,7 +8,13 @@ final class Game105ViewModel {
     private(set) var engine: Game105Engine
     let sideA: String
     let sideB: String
+    /// Составы команд (игроки по именам).
+    let playersA: [String]
+    let playersB: [String]
     let theme: CourtTheme
+
+    func players(_ side: Side) -> [String] { side == .a ? playersA : playersB }
+    func roster(_ side: Side) -> TeamRoster { TeamRoster(name: name(side), players: players(side)) }
 
     /// Тост после undo: «Отменено: Виннер +5, сторона А».
     var toast: String?
@@ -41,15 +47,33 @@ final class Game105ViewModel {
 
     private var toastTask: Task<Void, Never>?
 
-    init(sideA: String, sideB: String, theme: CourtTheme, config: Game105Config) {
+    init(
+        sideA: String,
+        sideB: String,
+        playersA: [String] = [],
+        playersB: [String] = [],
+        theme: CourtTheme,
+        config: Game105Config
+    ) {
         self.sideA = sideA
         self.sideB = sideB
+        self.playersA = playersA
+        self.playersB = playersB
         self.theme = theme
         self.engine = Game105Engine(config: config)
     }
 
     /// Готовый движок (для demo-сценариев).
-    init(sideA: String, sideB: String, theme: CourtTheme, engine: Game105Engine) {
+    init(
+        sideA: String,
+        sideB: String,
+        playersA: [String] = [],
+        playersB: [String] = [],
+        theme: CourtTheme,
+        engine: Game105Engine
+    ) {
+        self.playersA = playersA
+        self.playersB = playersB
         self.sideA = sideA
         self.sideB = sideB
         self.theme = theme
@@ -128,6 +152,8 @@ final class Game105ViewModel {
         return Game105Detail(
             sideA: sideA,
             sideB: sideB,
+            playersA: playersA,
+            playersB: playersB,
             config: engine.config,
             scoreA: engine.score(of: .a),
             scoreB: engine.score(of: .b),

@@ -6,6 +6,10 @@ struct VictoryView: View {
     @Environment(AppRouter.self) private var router
     @Environment(AppSettings.self) private var settings
 
+    @State private var showNewGame = false
+    @State private var editPlayersA: [String] = []
+    @State private var editPlayersB: [String] = []
+
     private enum Source {
         case match(MatchViewModel, MatchDetail)
         case game105(Game105ViewModel, Game105Detail)
@@ -60,9 +64,8 @@ struct VictoryView: View {
                 MatchResultCard(detail: detail, theme: viewModel.theme)
             }
         case .game105(let viewModel, let detail):
-            ShareableCard(theme: theme) {
-                Game105ResultCard(detail: detail, theme: viewModel.theme)
-            }
+            Game105ResultCard(detail: detail, theme: viewModel.theme)
+                .padding(.horizontal, 24)
         case nil:
             GlassCard(theme: theme) {
                 Text("Game not found")
@@ -72,50 +75,136 @@ struct VictoryView: View {
         }
     }
 
+    @ViewBuilder
     private var actions: some View {
-        VStack(spacing: 10) {
-            PrimaryCapsuleButton(title: "Play again", systemImage: "arrow.counterclockwise", theme: theme) {
-                playAgain()
-            }
-            Button {
-                router.popToRoot()
-            } label: {
-                Text("Home")
-                    .font(.system(.body, design: .rounded).weight(.semibold))
-                    .foregroundStyle(theme.textPrimary)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Capsule().fill(theme.cardFill))
-                    .overlay(Capsule().strokeBorder(theme.cardStroke, lineWidth: 1))
-            }
-            .buttonStyle(SpringPressStyle())
+        switch source {
+        case .match(let viewModel, _):
+            matchActions(viewModel)
+        case .game105(let viewModel, let detail):
+            game105Actions(viewModel, detail)
+        case nil:
+            homeButton
         }
     }
 
-    private func playAgain() {
-        switch source {
-        case .match(let viewModel, _):
-            let fresh = MatchViewModel(
-                playerA: viewModel.playerA,
-                playerB: viewModel.playerB,
-                theme: viewModel.theme,
-                config: viewModel.engine.config,
-                initialServer: viewModel.engine.initialServer.opponent
-            )
-            router.matchSession = fresh
-            router.path = [.match]
-        case .game105(let viewModel, _):
-            let fresh = Game105ViewModel(
-                sideA: viewModel.sideA,
-                sideB: viewModel.sideB,
-                theme: viewModel.theme,
-                config: viewModel.engine.config
-            )
-            router.game105Session = fresh
-            router.path = [.game105]
-        case nil:
-            router.popToRoot()
+    // MARK: - Матч
+
+    private func matchActions(_ viewModel: MatchViewModel) -> some View {
+        VStack(spacing: 10) {
+            PrimaryCapsuleButton(title: "Play again", systemImage: "arrow.counterclockwise", theme: theme) {
+                let fresh = MatchViewModel(
+                    playerA: viewModel.playerA,
+                    playerB: viewModel.playerB,
+                    theme: viewModel.theme,
+                    config: viewModel.engine.config,
+                    initialServer: viewModel.engine.initialServer.opponent
+                )
+                router.matchSession = fresh
+                router.path = [.match]
+            }
+            homeButton
         }
+    }
+
+    // MARK: - «105»
+
+    private func game105Actions(_ viewModel: Game105ViewModel, _ detail: Game105Detail) -> some View {
+        VStack(spacing: 10) {
+            ShareLink(item: detail.shareText(date: Date())) {
+                actionLabel("Share Result", symbol: "square.and.arrow.up", primary: true)
+            }
+            HStack(spacing: 10) {
+                Button {
+                    openNewGame(viewModel)
+                } label: {
+                    actionLabel("Start New Game", symbol: "play.fill")
+                }
+                .buttonStyle(SpringPressStyle())
+                Button {
+                    openNewGame(viewModel)
+                } label: {
+                    actionLabel("Edit Teams", symbol: "person.2.fill")
+                }
+                .buttonStyle(SpringPressStyle())
+            }
+            homeButton
+            Text("✓ Saved to History")
+                .font(.system(.caption2, design: .rounded))
+                .foregroundStyle(theme.textSecondary.opacity(0.8))
+        }
+        .sheet(isPresented: $showNewGame) {
+            newGameSheet(viewModel)
+        }
+    }
+
+    private func openNewGame(_ viewModel: Game105ViewModel) {
+        editPlayersA = viewModel.playersA.isEmpty ? ["", "", ""] : viewModel.playersA
+        editPlayersB = viewModel.playersB.isEmpty ? ["", "", ""] : viewModel.playersB
+        showNewGame = true
+    }
+
+    private func newGameSheet(_ viewModel: Game105ViewModel) -> some View {
+        ZStack {
+            LinearGradient(colors: theme.backgroundColors(dark: true), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 16) {
+                    Capsule().fill(Color.white.opacity(0.3)).frame(width: 40, height: 5).padding(.top, 10)
+                    Text("Next game")
+                        .font(.system(.title3, design: .rounded).weight(.bold))
+                        .foregroundStyle(theme.textPrimary)
+                    Text("Keep the same teams or move players around, then start.")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundStyle(theme.textSecondary)
+                        .multilineTextAlignment(.center)
+
+                    RosterEditor(playersA: $editPlayersA, playersB: $editPlayersB, theme: theme, allowMoving: true)
+
+                    PrimaryCapsuleButton(title: "Start game", systemImage: "play.fill", theme: theme) {
+                        let fresh = Game105ViewModel(
+                            sideA: "Team A",
+                            sideB: "Team B",
+                            playersA: editPlayersA,
+                            playersB: editPlayersB,
+                            theme: viewModel.theme,
+                            config: viewModel.engine.config
+                        )
+                        showNewGame = false
+                        router.game105Session = fresh
+                        router.path = [.game105]
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 24)
+                .readableWidth()
+            }
+            .scrollDismissesKeyboard(.interactively)
+        }
+    }
+
+    private var homeButton: some View {
+        Button {
+            router.popToRoot()
+        } label: {
+            actionLabel("Home", symbol: nil)
+        }
+        .buttonStyle(SpringPressStyle())
+    }
+
+    private func actionLabel(_ title: String, symbol: String?, primary: Bool = false) -> some View {
+        HStack(spacing: 7) {
+            if let symbol {
+                Image(systemName: symbol)
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+            }
+            Text(title)
+                .font(.system(.body, design: .rounded).weight(.semibold))
+        }
+        .foregroundStyle(primary ? theme.onAccent : theme.textPrimary)
+        .frame(maxWidth: .infinity)
+        .frame(height: 50)
+        .background(Capsule().fill(primary ? theme.accent : theme.cardFill))
+        .overlay(Capsule().strokeBorder(primary ? Color.white.opacity(0.25) : theme.cardStroke, lineWidth: 1))
     }
 }
 
@@ -302,8 +391,8 @@ struct Game105ResultCard: View {
                 }
 
                 HStack(alignment: .top, spacing: 28) {
-                    breakdownColumn(name: detail.sideA, lines: detail.breakdownA, isWinner: detail.winner == .a)
-                    breakdownColumn(name: detail.sideB, lines: detail.breakdownB, isWinner: detail.winner == .b)
+                    breakdownColumn(name: detail.sideA, roster: detail.rosterA, lines: detail.breakdownA, isWinner: detail.winner == .a)
+                    breakdownColumn(name: detail.sideB, roster: detail.rosterB, lines: detail.breakdownB, isWinner: detail.winner == .b)
                 }
                 // Разделитель фоном: не растягивает карточку по вертикали.
                 .background(
@@ -315,7 +404,7 @@ struct Game105ResultCard: View {
         }
     }
 
-    private func breakdownColumn(name: String, lines: [Game105Detail.BreakdownLine], isWinner: Bool) -> some View {
+    private func breakdownColumn(name: String, roster: TeamRoster, lines: [Game105Detail.BreakdownLine], isWinner: Bool) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: 4) {
                 Text(name)
@@ -327,6 +416,12 @@ struct Game105ResultCard: View {
                         .font(.system(size: 9))
                         .foregroundStyle(CourtTheme.ballYellow)
                 }
+            }
+            if !roster.players.isEmpty {
+                Text(roster.playersLine)
+                    .font(.system(.caption2, design: .rounded))
+                    .foregroundStyle(theme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             if lines.isEmpty {
                 Text("No points")

@@ -42,10 +42,40 @@ struct MatchDetail: Codable {
     var winnerName: String { winner == .a ? playerA : playerB }
 }
 
+/// Состав команды: имя команды + список игроков.
+struct TeamRoster: Codable, Equatable, Hashable {
+    var name: String
+    var players: [String]
+
+    init(name: String, players: [String]) {
+        self.name = name
+        self.players = players
+    }
+
+    /// Стартовый состав: N игроков с пустыми именами.
+    static func makeDefault(name: String, count: Int = 3) -> TeamRoster {
+        TeamRoster(name: name, players: Array(repeating: "", count: max(1, count)))
+    }
+
+    /// Имена для показа: пустые поля → «Player N».
+    var displayPlayers: [String] {
+        players.enumerated().map { index, raw in
+            let trimmed = raw.trimmingCharacters(in: .whitespaces)
+            return trimmed.isEmpty ? "Player \(index + 1)" : trimmed
+        }
+    }
+
+    /// «Daniil / Mike / Alex».
+    var playersLine: String { displayPlayers.joined(separator: " / ") }
+}
+
 /// Слепок завершённой игры «105».
 struct Game105Detail: Codable {
     var sideA: String
     var sideB: String
+    /// Составы команд (опционально — для записей до v1.1).
+    var playersA: [String]?
+    var playersB: [String]?
     var config: Game105Config
     var scoreA: Int
     var scoreB: Int
@@ -62,6 +92,38 @@ struct Game105Detail: Codable {
 
     var resultLine: String { "\(scoreA):\(scoreB)" }
     var winnerName: String { winner == .a ? sideA : sideB }
+
+    var rosterA: TeamRoster { TeamRoster(name: sideA, players: playersA ?? []) }
+    var rosterB: TeamRoster { TeamRoster(name: sideB, players: playersB ?? []) }
+
+    func score(of side: Side) -> Int { side == .a ? scoreA : scoreB }
+
+    /// Текст для «Поделиться» по образцу тестера.
+    func shareText(date: Date) -> String {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US")
+        df.dateFormat = "MMMM d, yyyy"
+        var lines = ["105 Game Result", ""]
+        if !rosterA.players.isEmpty {
+            lines.append("\(sideA): \(rosterA.playersLine)")
+        } else {
+            lines.append(sideA)
+        }
+        lines.append("Score: \(scoreA)")
+        lines.append("")
+        if !rosterB.players.isEmpty {
+            lines.append("\(sideB): \(rosterB.playersLine)")
+        } else {
+            lines.append(sideB)
+        }
+        lines.append("Score: \(scoreB)")
+        lines.append("")
+        lines.append("Winner: \(winnerName)")
+        lines.append("")
+        lines.append("Game type: First to \(config.targetScore)")
+        lines.append("Date: \(df.string(from: date))")
+        return lines.joined(separator: "\n")
+    }
 }
 
 /// Запись истории — общая для обоих режимов.

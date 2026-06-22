@@ -239,4 +239,40 @@ final class Game105Tests: XCTestCase {
         let event = engine.award(PointCategory.smashID, to: .a)
         XCTAssertEqual(event?.value, 20)
     }
+
+    // MARK: - Кастомные и отрицательные категории
+
+    func testCustomCategoryFactory() {
+        let custom = PointCategory.custom(title: "Ace", value: 15)
+        XCTAssertTrue(custom.isCustom)
+        XCTAssertEqual(custom.value, 15)
+        XCTAssertEqual(custom.customTitle, "Ace")
+        XCTAssertFalse(PointCategory(id: PointCategory.errorID, value: 1).isCustom)
+    }
+
+    func testNegativeAndCustomCategoryAwardAndUndo() {
+        let penalty = PointCategory.custom(title: "Double Fault", value: -5)
+        var categories = PointCategory.standardSet()
+        categories.append(penalty)
+        var engine = Game105Engine(config: Game105Config(categories: categories))
+
+        engine.award(PointCategory.winnerID, to: .a)   // +5 → 5
+        engine.award(penalty.id, to: .a)               // -5 → 0
+        XCTAssertEqual(engine.score(of: .a), 0)
+
+        // Undo минусового очка восстанавливает счёт
+        let undone = engine.undo()
+        XCTAssertEqual(undone?.value, -5)
+        XCTAssertEqual(undone?.categoryID, penalty.id)
+        XCTAssertEqual(engine.score(of: .a), 5)
+
+        // Undo до нуля
+        engine.undo()
+        XCTAssertEqual(engine.score(of: .a), 0)
+        XCTAssertFalse(engine.canUndo)
+
+        // Минусовое очко не мешает определять победу
+        for _ in 0..<7 { engine.award(PointCategory.smashID, to: .a) } // +140
+        XCTAssertEqual(engine.winner, .a)
+    }
 }

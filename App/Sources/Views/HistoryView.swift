@@ -192,6 +192,18 @@ private struct RecordDetailSheet: View {
                         MatchResultCard(detail: matchDetail, theme: theme)
                     } else if let gameDetail = record.game105Detail {
                         Game105ResultCard(detail: gameDetail, theme: theme)
+                        ShareLink(item: gameDetail.shareText(date: record.date)) {
+                            HStack(spacing: 7) {
+                                Image(systemName: "square.and.arrow.up")
+                                Text("Share Result")
+                            }
+                            .font(.system(.body, design: .rounded).weight(.semibold))
+                            .foregroundStyle(theme.onAccent)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(Capsule().fill(theme.accent))
+                        }
+                        .padding(.horizontal, 24)
                     }
 
                     Button("Close") { dismiss() }

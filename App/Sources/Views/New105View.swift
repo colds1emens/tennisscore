@@ -9,14 +9,12 @@ struct New105View: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \RulePreset.createdAt) private var presets: [RulePreset]
 
-    @State private var sideA = ""
-    @State private var sideB = ""
+    @State private var playersA: [String] = ["", "", ""]
+    @State private var playersB: [String] = ["", "", ""]
     @State private var target = 105
     @State private var categories: [PointCategory] = PointCategory.standardSet()
 
     private var theme: CourtTheme { settings.theme }
-    private var nameA: String { sideA.isEmpty ? "Side A" : sideA }
-    private var nameB: String { sideB.isEmpty ? "Side B" : sideB }
     private var hasEnabled: Bool { categories.contains(where: \.isEnabled) }
 
     var body: some View {
@@ -31,10 +29,12 @@ struct New105View: View {
 
                     GlassCard(theme: theme) {
                         VStack(spacing: 12) {
-                            sectionLabel("Sides")
-                            NameField(placeholder: "Side A — player or team", text: $sideA, theme: theme)
-                            NameField(placeholder: "Side B — player or team", text: $sideB, theme: theme)
-                            Text("Type a single player or a whole team — whatever you like. You can swap sides any time during the game.")
+                            HStack {
+                                sectionLabel("Teams")
+                                Spacer()
+                            }
+                            RosterEditor(playersA: $playersA, playersB: $playersB, theme: theme)
+                            Text("Default is 3 vs 3. Add or remove players — 1 to 6 each, teams can be uneven. You can move players between teams after each game.")
                                 .font(.system(.caption2, design: .rounded))
                                 .foregroundStyle(theme.textSecondary.opacity(0.7))
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -124,7 +124,14 @@ struct New105View: View {
     private func startGame() {
         guard hasEnabled else { return }
         let config = Game105Config(targetScore: target, categories: categories)
-        let viewModel = Game105ViewModel(sideA: nameA, sideB: nameB, theme: theme, config: config)
+        let viewModel = Game105ViewModel(
+            sideA: "Team A",
+            sideB: "Team B",
+            playersA: playersA,
+            playersB: playersB,
+            theme: theme,
+            config: config
+        )
         settings.targetScore = target
         router.start105(viewModel)
     }

@@ -182,16 +182,25 @@ private struct SideZone: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            HStack(spacing: 8) {
-                Text(viewModel.name(side))
-                    .font(.system(.headline, design: .rounded).weight(.semibold))
-                    .foregroundStyle(theme.textSecondary)
-                    .lineLimit(1)
-                if engine.isGamePoint(for: side) {
-                    PulsingBadge(badge: .gamePoint)
+            VStack(spacing: 1) {
+                HStack(spacing: 8) {
+                    Text(viewModel.name(side))
+                        .font(.system(.headline, design: .rounded).weight(.bold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                    if engine.isGamePoint(for: side) {
+                        PulsingBadge(badge: .gamePoint)
+                    }
+                }
+                if !viewModel.players(side).isEmpty {
+                    Text(viewModel.roster(side).playersLine)
+                        .font(.system(.caption2, design: .rounded))
+                        .foregroundStyle(theme.textSecondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                 }
             }
-            .frame(height: 30)
+            .frame(minHeight: 30)
             .animation(.spring(response: 0.4, dampingFraction: 0.7), value: engine.isGamePoint(for: side))
 
             scoreView
@@ -220,13 +229,13 @@ private struct SideZone: View {
 
     private var buttonsGrid: some View {
         let categories = engine.config.enabledCategories
-        // При 5 типах — 3 колонки (2 ряда), иначе 2 колонки: всё в зоне большого пальца.
+        // До 4 типов — 2 колонки (крупнее), 5+ — 3 колонки; всё в зоне большого пальца.
         let columnCount = categories.count > 4 ? 3 : 2
         let columns = Array(
-            repeating: GridItem(.flexible(), spacing: 8),
+            repeating: GridItem(.flexible(), spacing: 12),
             count: columnCount
         )
-        return LazyVGrid(columns: columns, spacing: 8) {
+        return LazyVGrid(columns: columns, spacing: 12) {
             ForEach(categories) { category in
                 AwardButton(category: category, theme: theme, sideName: viewModel.name(side)) {
                     viewModel.award(category.id, to: side)

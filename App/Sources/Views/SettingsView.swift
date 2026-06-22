@@ -11,6 +11,8 @@ struct SettingsView: View {
 
     @State private var showSavePreset = false
     @State private var presetName = ""
+    @State private var renamingPreset: RulePreset?
+    @State private var renameText = ""
 
     private var theme: CourtTheme { settings.theme }
 
@@ -94,6 +96,18 @@ struct SettingsView: View {
         } message: {
             Text("Current point values will be saved as a preset")
         }
+        .alert("Rename preset", isPresented: Binding(get: { renamingPreset != nil }, set: { if !$0 { renamingPreset = nil } })) {
+            TextField("Preset name", text: $renameText)
+            Button("Save") {
+                let trimmed = renameText.trimmingCharacters(in: .whitespacesAndNewlines)
+                if let preset = renamingPreset, !trimmed.isEmpty {
+                    preset.name = trimmed
+                    Haptics.success()
+                }
+                renamingPreset = nil
+            }
+            Button("Cancel", role: .cancel) { renamingPreset = nil }
+        }
     }
 
     // MARK: - Пресеты
@@ -144,13 +158,24 @@ struct SettingsView: View {
                 }
             }
             Button {
+                renamingPreset = preset
+                renameText = preset.name
+            } label: {
+                Image(systemName: "pencil")
+                    .font(.system(.footnote, design: .rounded))
+                    .foregroundStyle(theme.textSecondary)
+                    .frame(width: 30, height: 32)
+            }
+            .buttonStyle(SpringPressStyle())
+            .accessibilityLabel("Rename preset \(preset.name)")
+            Button {
                 modelContext.delete(preset)
                 Haptics.warning()
             } label: {
                 Image(systemName: "trash")
                     .font(.system(.footnote, design: .rounded))
                     .foregroundStyle(theme.textSecondary)
-                    .frame(width: 32, height: 32)
+                    .frame(width: 30, height: 32)
             }
             .buttonStyle(SpringPressStyle())
             .accessibilityLabel("Delete preset \(preset.name)")
