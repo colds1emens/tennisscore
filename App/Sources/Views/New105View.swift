@@ -9,10 +9,11 @@ struct New105View: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \RulePreset.createdAt) private var presets: [RulePreset]
 
-    @State private var playersA: [String] = ["", "", ""]
-    @State private var playersB: [String] = ["", "", ""]
+    @State private var playersA: [RosterPlayer] = .roster(count: 3)
+    @State private var playersB: [RosterPlayer] = .roster(count: 3)
     @State private var target = 105
     @State private var categories: [PointCategory] = PointCategory.standardSet()
+    @State private var didLoad = false
 
     private var theme: CourtTheme { settings.theme }
     private var hasEnabled: Bool { categories.contains(where: \.isEnabled) }
@@ -79,6 +80,8 @@ struct New105View: View {
             .scrollDismissesKeyboard(.interactively)
         }
         .onAppear {
+            guard !didLoad else { return }
+            didLoad = true
             categories = settings.categories
             target = settings.targetScore
         }
@@ -127,8 +130,8 @@ struct New105View: View {
         let viewModel = Game105ViewModel(
             sideA: "Team A",
             sideB: "Team B",
-            playersA: playersA,
-            playersB: playersB,
+            playersA: playersA.names,
+            playersB: playersB.names,
             theme: theme,
             config: config
         )

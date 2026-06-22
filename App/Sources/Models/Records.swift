@@ -42,6 +42,32 @@ struct MatchDetail: Codable {
     var winnerName: String { winner == .a ? playerA : playerB }
 }
 
+/// Игрок в редакторе составов со стабильным id (чтобы строки не «прыгали»
+/// при добавлении/удалении и не крашили ForEach).
+struct RosterPlayer: Identifiable, Equatable {
+    var id = UUID()
+    var name: String = ""
+}
+
+extension Array where Element == RosterPlayer {
+    /// N пустых игроков.
+    static func roster(count: Int) -> [RosterPlayer] {
+        (0..<Swift.max(1, count)).map { _ in RosterPlayer() }
+    }
+    /// Из массива имён.
+    static func roster(names: [String]) -> [RosterPlayer] {
+        names.map { RosterPlayer(name: $0) }
+    }
+    /// Имена (с пробелами как есть).
+    var names: [String] { map(\.name) }
+}
+
+/// Очистка имён: убрать пробелы и пустые. Пустой результат → nil.
+func cleanedNames(_ names: [String]) -> [String]? {
+    let cleaned = names.map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+    return cleaned.isEmpty ? nil : cleaned
+}
+
 /// Состав команды: имя команды + список игроков.
 struct TeamRoster: Codable, Equatable, Hashable {
     var name: String
@@ -104,25 +130,24 @@ struct Game105Detail: Codable {
         df.locale = Locale(identifier: "en_US")
         df.dateFormat = "MMMM d, yyyy"
         var lines = ["105 Game Result", ""]
-        if !rosterA.players.isEmpty {
-            lines.append("\(sideA): \(rosterA.playersLine)")
-        } else {
-            lines.append(sideA)
-        }
-        lines.append("Score: \(scoreA)")
+        appendTeam(&lines, name: sideA, roster: rosterA, score: scoreA, breakdown: breakdownA)
         lines.append("")
-        if !rosterB.players.isEmpty {
-            lines.append("\(sideB): \(rosterB.playersLine)")
-        } else {
-            lines.append(sideB)
-        }
-        lines.append("Score: \(scoreB)")
+        appendTeam(&lines, name: sideB, roster: rosterB, score: scoreB, breakdown: breakdownB)
         lines.append("")
         lines.append("Winner: \(winnerName)")
         lines.append("")
         lines.append("Game type: First to \(config.targetScore)")
         lines.append("Date: \(df.string(from: date))")
         return lines.joined(separator: "\n")
+    }
+
+    private func appendTeam(_ lines: inout [String], name: String, roster: TeamRoster, score: Int, breakdown: [BreakdownLine]) {
+        lines.append(roster.players.isEmpty ? name : "\(name): \(roster.playersLine)")
+        lines.append("Score: \(score)")
+        for line in breakdown {
+            let title = config.category(id: line.categoryID)?.displayTitle ?? CategoryInfo.title(line.categoryID)
+            lines.append("  \(title) ×\(line.count) = \(line.total)")
+        }
     }
 }
 
@@ -183,10 +208,14 @@ final class GameRecord {
     }
 
     static func record(game105 detail: Game105Detail, theme: CourtTheme, date: Date = Date()) -> GameRecord {
-        GameRecord(
+        let hasRosters = !detail.rosterA.players.isEmpty || !detail.rosterB.players.isEmpty
+        let title = hasRosters
+            ? "\(detail.rosterA.playersLine) — \(detail.rosterB.playersLine)"
+            : "\(detail.sideA) — \(detail.sideB)"
+        return GameRecord(
             date: date,
             mode: .game105,
-            title: "\(detail.sideA) — \(detail.sideB)",
+            title: title,
             resultSummary: detail.resultLine,
             winnerName: detail.winnerName,
             theme: theme,

@@ -7,8 +7,8 @@ struct VictoryView: View {
     @Environment(AppSettings.self) private var settings
 
     @State private var showNewGame = false
-    @State private var editPlayersA: [String] = []
-    @State private var editPlayersB: [String] = []
+    @State private var editPlayersA: [RosterPlayer] = []
+    @State private var editPlayersB: [RosterPlayer] = []
 
     private enum Source {
         case match(MatchViewModel, MatchDetail)
@@ -115,13 +115,13 @@ struct VictoryView: View {
             }
             HStack(spacing: 10) {
                 Button {
-                    openNewGame(viewModel)
+                    startNextGame(viewModel, playersA: viewModel.playersA, playersB: viewModel.playersB)
                 } label: {
                     actionLabel("Start New Game", symbol: "play.fill")
                 }
                 .buttonStyle(SpringPressStyle())
                 Button {
-                    openNewGame(viewModel)
+                    openEditTeams(viewModel)
                 } label: {
                     actionLabel("Edit Teams", symbol: "person.2.fill")
                 }
@@ -137,10 +137,26 @@ struct VictoryView: View {
         }
     }
 
-    private func openNewGame(_ viewModel: Game105ViewModel) {
-        editPlayersA = viewModel.playersA.isEmpty ? ["", "", ""] : viewModel.playersA
-        editPlayersB = viewModel.playersB.isEmpty ? ["", "", ""] : viewModel.playersB
+    /// «Edit Teams» — открыть лист с составами для перестановки игроков.
+    private func openEditTeams(_ viewModel: Game105ViewModel) {
+        editPlayersA = viewModel.playersA.isEmpty ? .roster(count: 3) : .roster(names: viewModel.playersA)
+        editPlayersB = viewModel.playersB.isEmpty ? .roster(count: 3) : .roster(names: viewModel.playersB)
         showNewGame = true
+    }
+
+    /// Старт следующей игры с заданными составами (теми же или отредактированными).
+    private func startNextGame(_ viewModel: Game105ViewModel, playersA: [String], playersB: [String]) {
+        let fresh = Game105ViewModel(
+            sideA: "Team A",
+            sideB: "Team B",
+            playersA: playersA,
+            playersB: playersB,
+            theme: viewModel.theme,
+            config: viewModel.engine.config
+        )
+        showNewGame = false
+        router.game105Session = fresh
+        router.path = [.game105]
     }
 
     private func newGameSheet(_ viewModel: Game105ViewModel) -> some View {
@@ -161,17 +177,7 @@ struct VictoryView: View {
                     RosterEditor(playersA: $editPlayersA, playersB: $editPlayersB, theme: theme, allowMoving: true)
 
                     PrimaryCapsuleButton(title: "Start game", systemImage: "play.fill", theme: theme) {
-                        let fresh = Game105ViewModel(
-                            sideA: "Team A",
-                            sideB: "Team B",
-                            playersA: editPlayersA,
-                            playersB: editPlayersB,
-                            theme: viewModel.theme,
-                            config: viewModel.engine.config
-                        )
-                        showNewGame = false
-                        router.game105Session = fresh
-                        router.path = [.game105]
+                        startNextGame(viewModel, playersA: editPlayersA.names, playersB: editPlayersB.names)
                     }
                 }
                 .padding(.horizontal, 20)

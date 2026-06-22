@@ -152,8 +152,8 @@ final class Game105ViewModel {
         return Game105Detail(
             sideA: sideA,
             sideB: sideB,
-            playersA: playersA,
-            playersB: playersB,
+            playersA: cleanedNames(playersA),
+            playersB: cleanedNames(playersB),
             config: engine.config,
             scoreA: engine.score(of: .a),
             scoreB: engine.score(of: .b),

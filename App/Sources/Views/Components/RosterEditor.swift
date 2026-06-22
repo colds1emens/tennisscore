@@ -3,12 +3,13 @@ import SwiftUI
 /// Редактор составов двух команд: имена игроков, добавить/убрать,
 /// быстрые размеры (1v1…6v6), перемещение игроков между командами и swap.
 /// Команды от 1 до 6 игроков, размеры могут быть неравными.
+/// Игроки со стабильными id — строки не «прыгают» при изменении состава.
 struct RosterEditor: View {
-    @Binding var playersA: [String]
-    @Binding var playersB: [String]
+    @Binding var playersA: [RosterPlayer]
+    @Binding var playersB: [RosterPlayer]
     let theme: CourtTheme
-    /// Показывать кнопки перемещения игрока в другую команду (для смены составов между играми).
-    var allowMoving = false
+    /// Показывать кнопки перемещения игрока в другую команду.
+    var allowMoving = true
 
     private let maxPlayers = 6
 
@@ -68,19 +69,20 @@ struct RosterEditor: View {
 
     // MARK: - Карточка команды
 
-    private func teamCard(title: String, players: Binding<[String]>, other: Binding<[String]>, moveSymbol: String) -> some View {
-        VStack(spacing: 8) {
+    private func teamCard(title: String, players: Binding<[RosterPlayer]>, other: Binding<[RosterPlayer]>, moveSymbol: String) -> some View {
+        let count = players.wrappedValue.count
+        return VStack(spacing: 8) {
             HStack {
                 Text(title)
                     .font(.system(.subheadline, design: .rounded).weight(.bold))
                     .foregroundStyle(theme.textPrimary)
                 Spacer()
-                Text("\(players.wrappedValue.count) player\(players.wrappedValue.count == 1 ? "" : "s")")
+                Text("\(count) player\(count == 1 ? "" : "s")")
                     .font(.system(.caption2, design: .rounded))
                     .foregroundStyle(theme.textSecondary)
             }
 
-            ForEach(players.wrappedValue.indices, id: \.self) { index in
+            ForEach(Array(players.wrappedValue.enumerated()), id: \.element.id) { index, player in
                 HStack(spacing: 8) {
                     Text("\(index + 1)")
                         .font(.system(.footnote, design: .rounded).weight(.bold).monospacedDigit())
@@ -89,7 +91,7 @@ struct RosterEditor: View {
 
                     TextField(
                         "",
-                        text: players[index],
+                        text: nameBinding(players, id: player.id),
                         prompt: Text("Player \(index + 1)").foregroundStyle(theme.textSecondary.opacity(0.6))
                     )
                     .font(.system(.subheadline, design: .rounded).weight(.medium))
@@ -102,15 +104,15 @@ struct RosterEditor: View {
                     .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(theme.cardStroke, lineWidth: 1))
 
                     if allowMoving {
-                        iconButton(moveSymbol, enabled: other.wrappedValue.count < maxPlayers) {
-                            movePlayer(at: index, from: players, to: other)
+                        iconButton(moveSymbol, enabled: count > 1 && other.wrappedValue.count < maxPlayers) {
+                            movePlayer(id: player.id, from: players, to: other)
                         }
-                        .accessibilityLabel("Move \(players.wrappedValue[index].isEmpty ? "player \(index + 1)" : players.wrappedValue[index]) to the other team")
+                        .accessibilityLabel("Move player \(index + 1) to the other team")
                     }
 
-                    iconButton("minus.circle", enabled: players.wrappedValue.count > 1) {
+                    iconButton("minus.circle", enabled: count > 1) {
                         withAnimation(.spring(response: 0.3)) {
-                            players.wrappedValue.remove(at: index)
+                            players.wrappedValue.removeAll { $0.id == player.id }
                         }
                         Haptics.warning()
                     }
@@ -118,10 +120,10 @@ struct RosterEditor: View {
                 }
             }
 
-            if players.wrappedValue.count < maxPlayers {
+            if count < maxPlayers {
                 Button {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
-                        players.wrappedValue.append("")
+                        players.wrappedValue.append(RosterPlayer())
                     }
                     Haptics.selection()
                 } label: {
@@ -142,6 +144,18 @@ struct RosterEditor: View {
         .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(theme.cardStroke, lineWidth: 1))
     }
 
+    /// Биндинг к имени игрока по id (безопасно при изменении массива).
+    private func nameBinding(_ players: Binding<[RosterPlayer]>, id: UUID) -> Binding<String> {
+        Binding(
+            get: { players.wrappedValue.first(where: { $0.id == id })?.name ?? "" },
+            set: { newValue in
+                if let i = players.wrappedValue.firstIndex(where: { $0.id == id }) {
+                    players.wrappedValue[i].name = newValue
+                }
+            }
+        )
+    }
+
     private func iconButton(_ symbol: String, enabled: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: symbol)
@@ -155,16 +169,16 @@ struct RosterEditor: View {
 
     // MARK: - Логика
 
-    private func resize(_ arr: [String], to n: Int) -> [String] {
+    private func resize(_ arr: [RosterPlayer], to n: Int) -> [RosterPlayer] {
         if arr.count == n { return arr }
         if arr.count > n { return Array(arr.prefix(n)) }
-        return arr + Array(repeating: "", count: n - arr.count)
+        return arr + (0..<(n - arr.count)).map { _ in RosterPlayer() }
     }
 
-    private func movePlayer(at index: Int, from source: Binding<[String]>, to dest: Binding<[String]>) {
-        guard source.wrappedValue.indices.contains(index),
-              source.wrappedValue.count > 1,
-              dest.wrappedValue.count < maxPlayers
+    private func movePlayer(id: UUID, from source: Binding<[RosterPlayer]>, to dest: Binding<[RosterPlayer]>) {
+        guard source.wrappedValue.count > 1,
+              dest.wrappedValue.count < maxPlayers,
+              let index = source.wrappedValue.firstIndex(where: { $0.id == id })
         else { return }
         let player = source.wrappedValue[index]
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {

@@ -59,14 +59,26 @@ struct Game105View: View {
         .keepScreenAwake()
         .gesture(undoSwipe)
         .onChange(of: viewModel.engine.isFinished) { _, finished in
-            guard finished, !viewModel.savedToHistory else { return }
-            saveRecord()
-            Task { @MainActor in
-                try? await Task.sleep(for: .seconds(1.4))
-                router.open(.victory)
+            if finished {
+                finishTask?.cancel()
+                finishTask = Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(1.4))
+                    // Игру могли отменить (undo) за время задержки — перепроверяем.
+                    guard !Task.isCancelled, viewModel.engine.isFinished else { return }
+                    saveRecord()
+                    router.open(.victory)
+                }
+            } else {
+                // Undo вернул игру в незавершённое состояние: отменяем переход
+                // и разрешаем повторное сохранение при следующей победе.
+                finishTask?.cancel()
+                viewModel.savedToHistory = false
             }
         }
+        .onDisappear { finishTask?.cancel() }
     }
+
+    @State private var finishTask: Task<Void, Never>?
 
     // MARK: - Шапка
 
