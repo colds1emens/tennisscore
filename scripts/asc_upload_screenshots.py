@@ -16,7 +16,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import asc
 
-ORDER = ["home", "match", "105", "victory", "history", "settings"]
+ORDER = ["home", "new105", "105", "victory", "history", "settings"]
 
 
 def find_or_create_set(tok, loc_id, display_type):
