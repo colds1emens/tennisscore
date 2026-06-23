@@ -43,7 +43,7 @@ struct Game105View: View {
                         .padding(.top, 6)
                         .padding(.bottom, 10)
                 }
-                .readableWidth(760)
+                .readableWidth(isPadDevice ? 1120 : 760)
             }
 
             ConfettiOverlay(bursts: viewModel.confettiBursts)
@@ -194,10 +194,10 @@ private struct SideZone: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            VStack(spacing: 1) {
+            VStack(spacing: 2) {
                 HStack(spacing: 8) {
                     Text(viewModel.name(side))
-                        .font(.system(.headline, design: .rounded).weight(.bold))
+                        .font(.system(size: 17.pad(26), weight: .bold, design: .rounded))
                         .foregroundStyle(theme.textPrimary)
                         .lineLimit(1)
                     if engine.isGamePoint(for: side) {
@@ -206,13 +206,13 @@ private struct SideZone: View {
                 }
                 if !viewModel.players(side).isEmpty {
                     Text(viewModel.roster(side).playersLine)
-                        .font(.system(.caption2, design: .rounded))
+                        .font(.system(size: 11.pad(16), design: .rounded))
                         .foregroundStyle(theme.textSecondary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
                 }
             }
-            .frame(minHeight: 30)
+            .frame(minHeight: 30.pad(44))
             .animation(.spring(response: 0.4, dampingFraction: 0.7), value: engine.isGamePoint(for: side))
 
             scoreView
@@ -224,11 +224,11 @@ private struct SideZone: View {
 
     private var scoreView: some View {
         Text("\(engine.score(of: side))")
-            .font(.system(size: 68, weight: .heavy, design: .rounded).monospacedDigit())
+            .font(.system(size: 68.pad(132), weight: .heavy, design: .rounded).monospacedDigit())
             .foregroundStyle(theme.textPrimary)
             .contentTransition(.numericText(value: Double(engine.score(of: side))))
             .animation(.snappy(duration: 0.45), value: engine.score(of: side))
-            .frame(height: 70)
+            .frame(height: 70.pad(140))
             .overlay(alignment: .topTrailing) {
                 if let flash = viewModel.lastAward, flash.side == side {
                     FlyingValue(value: flash.value, theme: theme)
@@ -244,10 +244,10 @@ private struct SideZone: View {
         // До 4 типов — 2 колонки (крупнее), 5+ — 3 колонки; всё в зоне большого пальца.
         let columnCount = categories.count > 4 ? 3 : 2
         let columns = Array(
-            repeating: GridItem(.flexible(), spacing: 12),
+            repeating: GridItem(.flexible(), spacing: 12.pad(18)),
             count: columnCount
         )
-        return LazyVGrid(columns: columns, spacing: 12) {
+        return LazyVGrid(columns: columns, spacing: 12.pad(18)) {
             ForEach(categories) { category in
                 AwardButton(category: category, theme: theme, sideName: viewModel.name(side)) {
                     viewModel.award(category.id, to: side)
@@ -266,34 +266,34 @@ private struct AwardButton: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 3) {
-                HStack(spacing: 5) {
+            VStack(spacing: 3.pad(6)) {
+                HStack(spacing: 5.pad(8)) {
                     Image(systemName: category.displaySymbol)
-                        .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                        .font(.system(size: 14.pad(20), design: .rounded).weight(.semibold))
                         .foregroundStyle(theme.textSecondary)
                     Text(category.displayTitle)
-                        .font(.system(.body, design: .rounded).weight(.semibold))
+                        .font(.system(size: 17.pad(24), design: .rounded).weight(.semibold))
                         .foregroundStyle(theme.textPrimary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.65)
                 }
                 Text(category.signedValueText)
-                    .font(.system(.title2, design: .rounded).weight(.heavy).monospacedDigit())
+                    .font(.system(size: 22.pad(36), design: .rounded).weight(.heavy).monospacedDigit())
                     .foregroundStyle(category.value < 0 ? Color(red: 1.0, green: 0.55, blue: 0.5) : theme.accent)
                     .brightness(category.value < 0 ? 0 : 0.25)
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 8.pad(14))
             .frame(maxWidth: .infinity)
-            .frame(minHeight: 78)
+            .frame(minHeight: 78.pad(120))
             .background(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                RoundedRectangle(cornerRadius: 22.pad(28), style: .continuous)
                     .fill(theme.cardFill)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                RoundedRectangle(cornerRadius: 22.pad(28), style: .continuous)
                     .strokeBorder(theme.cardStroke, lineWidth: 1)
             )
-            .contentShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .contentShape(RoundedRectangle(cornerRadius: 22.pad(28), style: .continuous))
         }
         .buttonStyle(SpringPressStyle())
         .accessibilityLabel("\(sideName): \(category.displayLongTitle), \(category.value < 0 ? "minus \(abs(category.value))" : "plus \(category.value)") points")

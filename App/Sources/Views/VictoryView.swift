@@ -49,7 +49,7 @@ struct VictoryView: View {
                     .padding(.horizontal, 24)
                     .padding(.bottom, 16)
             }
-            .readableWidth(560)
+            .readableWidth(isPadDevice ? 720 : 560)
         }
         .toolbar(.hidden, for: .navigationBar)
     }
@@ -182,7 +182,7 @@ struct VictoryView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
-                .readableWidth()
+                .readableWidth(isPadDevice ? 820 : 620)
             }
             .scrollDismissesKeyboard(.interactively)
         }
@@ -378,21 +378,21 @@ struct Game105ResultCard: View {
                         .tracking(3)
                         .foregroundStyle(theme.textSecondary)
                     Text(detail.winnerName)
-                        .font(.system(size: 34, weight: .heavy, design: .rounded))
+                        .font(.system(size: 34.pad(48), weight: .heavy, design: .rounded))
                         .foregroundStyle(theme.textPrimary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
                 }
 
-                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                HStack(alignment: .firstTextBaseline, spacing: 12.pad(20)) {
                     Text("\(detail.scoreA)")
-                        .font(.system(size: 56, weight: .heavy, design: .rounded).monospacedDigit())
+                        .font(.system(size: 56.pad(88), weight: .heavy, design: .rounded).monospacedDigit())
                         .foregroundStyle(detail.winner == .a ? theme.textPrimary : theme.textSecondary)
                     Text(":")
-                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .font(.system(size: 40.pad(60), weight: .bold, design: .rounded))
                         .foregroundStyle(theme.textSecondary)
                     Text("\(detail.scoreB)")
-                        .font(.system(size: 56, weight: .heavy, design: .rounded).monospacedDigit())
+                        .font(.system(size: 56.pad(88), weight: .heavy, design: .rounded).monospacedDigit())
                         .foregroundStyle(detail.winner == .b ? theme.textPrimary : theme.textSecondary)
                 }
 

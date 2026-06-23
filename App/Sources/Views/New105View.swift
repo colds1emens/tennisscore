@@ -75,7 +75,7 @@ struct New105View: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
-                .readableWidth()
+                .readableWidth(isPadDevice ? 860 : 620)
             }
             .scrollDismissesKeyboard(.interactively)
         }

@@ -48,7 +48,7 @@ struct MatchView: View {
                     hint
                         .padding(.bottom, 10)
                 }
-                .readableWidth(820)
+                .readableWidth(isPadDevice ? 1000 : 820)
             }
 
             ConfettiOverlay(bursts: viewModel.confettiBursts)
@@ -155,19 +155,19 @@ struct MatchView: View {
                             .transition(.scale.combined(with: .opacity))
                     }
                     Text(viewModel.name(player))
-                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .font(.system(size: 17.pad(26), weight: .semibold, design: .rounded))
                         .foregroundStyle(theme.textSecondary)
                         .lineLimit(1)
                 }
                 .animation(.spring(response: 0.4, dampingFraction: 0.75), value: engine.server)
 
                 Text(engine.gameScoreText(for: player))
-                    .font(.system(size: 96, weight: .bold, design: .rounded).monospacedDigit())
+                    .font(.system(size: 96.pad(180), weight: .bold, design: .rounded).monospacedDigit())
                     .foregroundStyle(theme.textPrimary)
                     .contentTransition(.numericText())
                     .animation(.snappy(duration: 0.3), value: engine.gameScoreText(for: player))
                     .minimumScaleFactor(0.5)
-                    .frame(height: 100)
+                    .frame(height: 100.pad(180))
 
                 ZStack {
                     if let badge = MomentBadge.badge(for: engine, player: player) {

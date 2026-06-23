@@ -48,7 +48,7 @@ struct HistoryView: View {
                     }
                 }
             }
-            .readableWidth()
+            .readableWidth(isPadDevice ? 820 : 620)
         }
         .sheet(item: $selected) { record in
             RecordDetailSheet(record: record)

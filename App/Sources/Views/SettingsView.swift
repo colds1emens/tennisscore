@@ -86,7 +86,7 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
-                .readableWidth()
+                .readableWidth(isPadDevice ? 820 : 620)
             }
         }
         .alert("Preset name", isPresented: $showSavePreset) {

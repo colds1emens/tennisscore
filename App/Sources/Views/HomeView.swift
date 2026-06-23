@@ -47,7 +47,7 @@ struct HomeView: View {
                     .padding(.horizontal, 24)
                     .padding(.bottom, 10)
             }
-            .readableWidth()
+            .readableWidth(isPadDevice ? 760 : 620)
         }
     }
 
@@ -96,11 +96,11 @@ private struct ModeCard: View {
             HStack(spacing: 18) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(title)
-                        .font(.system(size: 40, weight: .heavy, design: .rounded))
+                        .font(.system(size: 40.pad(54), weight: .heavy, design: .rounded))
                         .foregroundStyle(theme.textPrimary)
                         .monospacedDigit()
                     Text(subtitle)
-                        .font(.system(.subheadline, design: .rounded).weight(.medium))
+                        .font(.system(size: 15.pad(19), design: .rounded).weight(.medium))
                         .foregroundStyle(theme.textSecondary)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
@@ -109,15 +109,15 @@ private struct ModeCard: View {
                 ZStack {
                     Circle()
                         .fill(theme.accent.opacity(0.22))
-                        .frame(width: 74, height: 74)
+                        .frame(width: 74.pad(96), height: 74.pad(96))
                     if let symbol {
                         Image(systemName: symbol)
-                            .font(.system(size: 34, weight: .semibold))
+                            .font(.system(size: 34.pad(44), weight: .semibold))
                             .foregroundStyle(theme.accent)
                             .brightness(0.2)
                     } else {
                         Text("105")
-                            .font(.system(size: 24, weight: .heavy, design: .rounded).monospacedDigit())
+                            .font(.system(size: 24.pad(32), weight: .heavy, design: .rounded).monospacedDigit())
                             .foregroundStyle(theme.accent)
                             .brightness(0.2)
                     }
